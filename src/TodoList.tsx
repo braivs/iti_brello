@@ -1,4 +1,4 @@
-import React, {useState, KeyboardEvent, ChangeEvent, MouseEvent} from 'react';
+import React, {useState, KeyboardEvent, ChangeEvent} from 'react';
 import {FilterValuesType, TaskType} from './App';
 
 type TodoListPropsType = {
@@ -6,12 +6,12 @@ type TodoListPropsType = {
   tasks: Array<TaskType>
   addTask: (title: string) => void
   removeTask: (taskID: string) => void
-  changeFilter: (value: string) => void
+  changeFilter: (value: FilterValuesType) => void
 }
 
 function TodoList(props: TodoListPropsType) {
   const [title, setTitle] = useState('')
-  const tasks = props.tasks.map(t => {
+  const tasksJSXElements = props.tasks.map(t => {
     const removeTask = () => props.removeTask(t.id)
     return (
       <li>
@@ -32,7 +32,9 @@ function TodoList(props: TodoListPropsType) {
     }
   }
   const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.currentTarget.value)
-  const onClickChangeFilter = (e: MouseEvent<HTMLButtonElement>) => props.changeFilter(e.currentTarget.name)
+  const onClickAllFilter = () => props.changeFilter("all")
+  const onClickActiveFilter = () => props.changeFilter("active")
+  const onClickCompletedFilter = () => props.changeFilter("completed")
 
   return (
     <div>
@@ -46,19 +48,16 @@ function TodoList(props: TodoListPropsType) {
         <button onClick={onClickAddTask}>+</button>
       </div>
       <ul>
-        { tasks }
+        { tasksJSXElements }
       </ul>
       <div>
         <button
-          name='all'
-          onClick={onClickChangeFilter}
+          onClick={onClickAllFilter}
         >All</button>
         <button
-          name='active'
-          onClick={onClickChangeFilter}>Active</button>
+          onClick={onClickActiveFilter}>Active</button>
         <button
-          name='completed'
-          onClick={onClickChangeFilter}>Completed</button>
+          onClick={onClickCompletedFilter}>Completed</button>
       </div>
     </div>
   )
