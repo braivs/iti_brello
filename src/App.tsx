@@ -19,7 +19,7 @@ function App() {
     {id: v1(), title: "React", isDone: false},
     {id: v1(), title: "Bootstrap", isDone: false}
   ])
-  const [filter, setFilter] = useState<FilterValuesType>("all")
+  const [filter, setFilter] = useState<string>("all")
 
   function removeTask(taskID: string) {
     const filteredTasks = tasks.filter(t => t.id !== taskID)
@@ -35,7 +35,7 @@ function App() {
     setTasks([newTask, ...tasks])
   }
 
-  function changeFilter(value: FilterValuesType) {
+  function changeFilter(value: string) {
     setFilter(value)
   }
 
