@@ -4,6 +4,7 @@ import {FilterValuesType, TaskType} from './App';
 type TodoListPropsType = {
   title: string
   tasks: Array<TaskType>
+  filter: FilterValuesType
   addTask: (title: string) => void
   removeTask: (taskID: string) => void
   changeFilter: (value: FilterValuesType) => void
@@ -14,7 +15,8 @@ function TodoList(props: TodoListPropsType) {
   const tasksJSXElements = props.tasks.map(t => {
     const removeTask = () => props.removeTask(t.id)
     return (
-      <li>
+      //условное присвоение класса
+      <li className={t.isDone ? 'is-done' : ''}>
         <input type="checkbox" checked={t.isDone}/>
         <span>{t.title}</span>
         <button onClick={removeTask}>X</button>
@@ -52,6 +54,7 @@ function TodoList(props: TodoListPropsType) {
       </ul>
       <div>
         <button
+          className={props.filter === 'all' ? 'active-filter' : ''}
           onClick={onClickAllFilter}
         >All</button>
         <button

@@ -6,3 +6,10 @@
 .App > div {
   margin-right: 50px;
 }
+
+.is-done {
+  opacity: 0.5;
+}
+.active-filter {
+  background-color: cornflowerblue;
+}
