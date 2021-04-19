@@ -48,6 +48,11 @@ function TodoList(props: TodoListPropsType) {
   const onClickAllFilter = () => props.changeFilter("all")
   const onClickActiveFilter = () => props.changeFilter("active")
   const onClickCompletedFilter = () => props.changeFilter("completed")
+  const errorMessage = error
+    //? <div className={'error-message'}>Title is required!</div>
+    // инлайновая стилизация: (встроенная)
+    ? <div style={{backgroundColor: 'red', borderRadius: '5px'}}>Title is required!</div> // css подобный объект
+    : null
 
   return (
     <div>
@@ -59,6 +64,7 @@ function TodoList(props: TodoListPropsType) {
           onKeyPress={onKeyPressAddTask}
         />
         <button onClick={onClickAddTask}>+</button>
+        {errorMessage}
       </div>
       <ul>
         { tasksJSXElements }
