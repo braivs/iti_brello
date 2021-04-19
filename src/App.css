@@ -13,3 +13,6 @@
 .active-filter {
   background-color: cornflowerblue;
 }
+.error {
+  border: 2px solid red;
+}

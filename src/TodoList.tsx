@@ -11,7 +11,10 @@ type TodoListPropsType = {
 }
 
 function TodoList(props: TodoListPropsType) {
+  const {filter} = props
+  // const filter = props.filter
   const [title, setTitle] = useState('')
+  const [error, setError] = useState<boolean>(false)
   const tasksJSXElements = props.tasks.map(t => {
     const removeTask = () => props.removeTask(t.id)
     return (
@@ -25,7 +28,12 @@ function TodoList(props: TodoListPropsType) {
   })
 
   const onClickAddTask = () => {
-    props.addTask(title)
+    const trimmedTitle = title.trim()
+    if (trimmedTitle) {
+      props.addTask(trimmedTitle)
+    } else {
+      setError(true)
+    }
     setTitle('')
   }
   const onKeyPressAddTask = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -33,7 +41,10 @@ function TodoList(props: TodoListPropsType) {
       onClickAddTask()
     }
   }
-  const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.currentTarget.value)
+  const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.currentTarget.value)
+    setError(false)
+  }
   const onClickAllFilter = () => props.changeFilter("all")
   const onClickActiveFilter = () => props.changeFilter("active")
   const onClickCompletedFilter = () => props.changeFilter("completed")
@@ -42,7 +53,7 @@ function TodoList(props: TodoListPropsType) {
     <div>
       <h3>{props.title}</h3>
       <div>
-        <input
+        <input className = {error ? 'error' : ''}
           value={title}
           onChange={onChangeTitle}
           onKeyPress={onKeyPressAddTask}
@@ -54,12 +65,14 @@ function TodoList(props: TodoListPropsType) {
       </ul>
       <div>
         <button
-          className={props.filter === 'all' ? 'active-filter' : ''}
+          className={filter === 'all' ? 'active-filter' : ''}
           onClick={onClickAllFilter}
         >All</button>
         <button
+          className={filter === 'active' ? 'active-filter' : ''}
           onClick={onClickActiveFilter}>Active</button>
         <button
+          className={filter === 'completed' ? 'active-filter' : ''}
           onClick={onClickCompletedFilter}>Completed</button>
       </div>
     </div>
