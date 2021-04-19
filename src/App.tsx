@@ -25,7 +25,6 @@ function App() {
     const filteredTasks = tasks.filter(t => t.id !== taskID)
     setTasks(filteredTasks);
   }
-
   function addTask(title: string) {
     const newTask: TaskType = {
       id: v1(),
@@ -33,6 +32,9 @@ function App() {
       isDone: false
     }
     setTasks([newTask, ...tasks])
+  }
+  function changeTaskStatus(taskID: string, newIsDoneValue: boolean) {
+    setTasks(tasks.map(t => t.id === taskID ? {...t, isDone: newIsDoneValue} : t))
   }
 
   function changeFilter(value: FilterValuesType) {
@@ -59,6 +61,7 @@ function App() {
         addTask = {addTask}
         removeTask={removeTask}
         changeFilter={changeFilter}
+        changeTaskStatus={changeTaskStatus}
       />
     </div>
   );

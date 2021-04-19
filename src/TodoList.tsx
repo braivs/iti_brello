@@ -8,6 +8,7 @@ type TodoListPropsType = {
   addTask: (title: string) => void
   removeTask: (taskID: string) => void
   changeFilter: (value: FilterValuesType) => void
+  changeTaskStatus: (taskID: string, newIsDoneValue: boolean) => void
 }
 
 function TodoList(props: TodoListPropsType) {
@@ -17,10 +18,15 @@ function TodoList(props: TodoListPropsType) {
   const [error, setError] = useState<boolean>(false)
   const tasksJSXElements = props.tasks.map(t => {
     const removeTask = () => props.removeTask(t.id)
+    const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) =>
+      props.changeTaskStatus(t.id, e.currentTarget.checked)
     return (
       //условное присвоение класса
       <li className={t.isDone ? 'is-done' : ''}>
-        <input type="checkbox" checked={t.isDone}/>
+        <input
+          onChange={changeTaskStatus}
+          type="checkbox"
+          checked={t.isDone}/>
         <span>{t.title}</span>
         <button onClick={removeTask}>X</button>
       </li>
