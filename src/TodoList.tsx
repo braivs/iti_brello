@@ -2,13 +2,15 @@ import React, {useState, KeyboardEvent, ChangeEvent} from 'react';
 import {FilterValuesType, TaskType} from './App';
 
 type TodoListPropsType = {
+  todoListID: string
   title: string
   tasks: Array<TaskType>
   filter: FilterValuesType
-  addTask: (title: string) => void
-  removeTask: (taskID: string) => void
-  changeFilter: (value: FilterValuesType) => void
-  changeTaskStatus: (taskID: string, newIsDoneValue: boolean) => void
+  addTask: (title: string, todoListId: string) => void
+  removeTask: (taskID: string, todoListId: string) => void
+  removeTodoList: (todoListId: string) => void
+  changeFilter: (value: FilterValuesType, todoListId: string) => void
+  changeTaskStatus: (taskID: string, newIsDoneValue: boolean, todoListId: string) => void
 }
 
 function TodoList(props: TodoListPropsType) {
@@ -17,9 +19,9 @@ function TodoList(props: TodoListPropsType) {
   const [title, setTitle] = useState('')
   const [error, setError] = useState<boolean>(false)
   const tasksJSXElements = props.tasks.map(t => {
-    const removeTask = () => props.removeTask(t.id)
+    const removeTask = () => props.removeTask(t.id, props.todoListID)
     const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) =>
-      props.changeTaskStatus(t.id, e.currentTarget.checked)
+      props.changeTaskStatus(t.id, e.currentTarget.checked, props.todoListID)
     return (
       //условное присвоение класса
       <li className={t.isDone ? 'is-done' : ''}>
@@ -36,7 +38,7 @@ function TodoList(props: TodoListPropsType) {
   const onClickAddTask = () => {
     const trimmedTitle = title.trim()
     if (trimmedTitle) {
-      props.addTask(trimmedTitle)
+      props.addTask(trimmedTitle, props.todoListID)
     } else {
       setError(true)
     }
@@ -51,9 +53,10 @@ function TodoList(props: TodoListPropsType) {
     setTitle(e.currentTarget.value)
     setError(false)
   }
-  const onClickAllFilter = () => props.changeFilter("all")
-  const onClickActiveFilter = () => props.changeFilter("active")
-  const onClickCompletedFilter = () => props.changeFilter("completed")
+  const onClickAllFilter = () => props.changeFilter("all", props.todoListID)
+  const onClickActiveFilter = () => props.changeFilter("active", props.todoListID)
+  const onClickCompletedFilter = () => props.changeFilter("completed", props.todoListID)
+  const onClickRemoveTodoList = () => props.removeTodoList(props.todoListID)
   const errorMessage = error
     //? <div className={'error-message'}>Title is required!</div>
     // инлайновая стилизация: (встроенная)
@@ -62,7 +65,7 @@ function TodoList(props: TodoListPropsType) {
 
   return (
     <div>
-      <h3>{props.title}</h3>
+      <h3>{props.title}<button onClick={onClickRemoveTodoList}>x</button></h3>
       <div>
         <input className = {error ? 'error' : ''}
           value={title}
