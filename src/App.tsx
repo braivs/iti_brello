@@ -3,6 +3,7 @@ import './App.css';
 import TodoList from './TodoList';
 import {v1} from 'uuid';
 import AddItemForm from './AddItemForm';
+import {Paper} from '@material-ui/core';
 
 export type TaskType = {
   id: string
@@ -45,12 +46,12 @@ function App() {
   })
 
 
-
   function removeTask(taskID: string, todoListId: string) {
     tasks[todoListId] = tasks[todoListId].filter(t => t.id !== taskID)
     setTasks({...tasks})
     // setTasks({...tasks, tasks[todoListId].filter(t => t.id !== taskID) } ) // аналог в одну строку
   }
+
   function addTask(title: string, todoListId: string) {
     const newTask: TaskType = {
       id: v1(),
@@ -59,19 +60,23 @@ function App() {
     }
     setTasks({...tasks, [todoListId]: [newTask, ...tasks[todoListId]]})
   }
+
   function changeTaskStatus(taskID: string, newIsDoneValue: boolean, todoListId: string) {
     tasks[todoListId] = tasks[todoListId].map(t => t.id === taskID ? {...t, isDone: newIsDoneValue} : t)
     setTasks({...tasks})
   }
+
   function changeTaskTitle(taskID: string, newTitle: string, todoListID: string) {
-    setTasks({...tasks,
+    setTasks({
+      ...tasks,
       [todoListID]: tasks[todoListID].map(t => t.id === taskID ? {...t, title: newTitle} : t)
     })
   }
 
   function changeFilter(value: FilterValuesType, todoListId: string) {
-    setTodoLists(todoLists.map(tl => tl.id === todoListId ? {...tl, filter : value} : tl))
+    setTodoLists(todoLists.map(tl => tl.id === todoListId ? {...tl, filter: value} : tl))
   }
+
   function changeTodoListTitle(title: string, todoListId: string) {
     setTodoLists(todoLists.map(tl => tl.id === todoListId ? {...tl, title} : tl))
   }
@@ -80,6 +85,7 @@ function App() {
     setTodoLists((todoLists.filter(tl => tl.id !== todoListId)))
     delete tasks[todoListId]
   }
+
   function addTodoList(title: string) {
     const newTodoListID = v1()
     const newTodoList: TodoListType = {id: newTodoListID, title, filter: 'all'}
@@ -99,31 +105,33 @@ function App() {
         return tasks[todoList.id]
     }
   }
-  const todoListComponents = todoLists.map(tl => {
-    return(
-      <TodoList
-        key={tl.id}
-        todoListID={tl.id}
-        title={tl.title}
-        tasks={getTasksForTodolist(tl)}
-        filter={tl.filter}
-        addTask={addTask}
-        removeTask={removeTask}
-        removeTodoList={removeTodoList}
-        changeFilter={changeFilter}
-        changeTaskStatus={changeTaskStatus}
-        changeTaskTitle={changeTaskTitle}
-        changeTodoListTitle={changeTodoListTitle}
-      />
-    )
-    }
 
+  const todoListComponents = todoLists.map(tl => {
+      return (
+        <Paper elevation={5} style={{padding: '20px'}}>
+          <TodoList
+            key={tl.id}
+            todoListID={tl.id}
+            title={tl.title}
+            tasks={getTasksForTodolist(tl)}
+            filter={tl.filter}
+            addTask={addTask}
+            removeTask={removeTask}
+            removeTodoList={removeTodoList}
+            changeFilter={changeFilter}
+            changeTaskStatus={changeTaskStatus}
+            changeTaskTitle={changeTaskTitle}
+            changeTodoListTitle={changeTodoListTitle}
+          />
+        </Paper>
+      )
+    }
   )
 
   return (
     <div className="App">
-      <AddItemForm addItem={addTodoList} />
-      { todoListComponents }
+      <AddItemForm addItem={addTodoList}/>
+      {todoListComponents}
     </div>
   );
 }
