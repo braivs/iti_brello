@@ -32,7 +32,7 @@ function TodoList(props: TodoListPropsType) {
       props.changeTaskTitle(t.id, title, props.todoListID)
     return (
       //условное присвоение класса
-      <li className={t.isDone ? 'is-done' : ''}>
+      <li key={t.id}>
         <span className={taskClasses}>
           <Checkbox
             color={'primary'}
@@ -42,7 +42,7 @@ function TodoList(props: TodoListPropsType) {
           <EditableSpan title={t.title} changeTitle={changeTaskTitle}/>
         </span>
         <IconButton onClick={removeTask}>
-          <Delete/>
+          <Delete />
         </IconButton>
       </li>
     )
