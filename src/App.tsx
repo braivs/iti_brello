@@ -1,5 +1,3 @@
-//circle2
-
 import React, {useState} from 'react';
 import './App.css';
 import TodoList from "./TodoList";
@@ -77,30 +75,45 @@ function App() {
     copyTasks[todoListID] = tasks[todoListID].map(t => t.id === taskID ? {...t, isDone} : t)
     setTasks(copyTasks);
   }
-
+  function removeTodoList(todoListID: string) {
+    setTodoLists(todoLists.filter(tl => tl.id !== todoListID))
+    const copyTasks = {...tasks}
+    delete copyTasks[todoListID]
+    setTasks(copyTasks)
+  }
 
   // UI:
-  function getTasksForTodolist(){
-    switch (filter) {
+  function getFilteredTasks(tl: TodoListType) {
+    switch (tl.filter) {
       case "active":
-        return tasks.filter(t => !t.isDone)
+        return tasks[tl.id].filter(t => !t.isDone)
       case "completed":
-        return tasks.filter(t => t.isDone)
+        return tasks[tl.id].filter(t => t.isDone)
       default:
-        return tasks
+        return tasks[tl.id]
     }
   }
-  return (
-    <div className="App">
+
+  const todoListComponents = todoLists.map(tl => {
+    const tasksForTodolist = getFilteredTasks(tl)
+    return (
       <TodoList
-        title={"What to learn"}
-        tasks={getTasksForTodolist()}
-        filter={filter}
+        key={tl.id}
+        todoListID={tl.id}
+        title={tl.title}
+        tasks={tasksForTodolist}
+        filter={tl.filter}
         addTask = {addTask}
         removeTask={removeTask}
+        removeTodoList={removeTodoList}
         changeFilter={changeTodoListFilter}
         changeTaskStatus={changeTaskStatus}
       />
+    )
+  })
+  return (
+    <div className="App">
+      {todoListComponents}
     </div>
   );
 }

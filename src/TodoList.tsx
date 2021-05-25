@@ -2,13 +2,15 @@ import React, {useState, KeyboardEvent, ChangeEvent} from 'react';
 import {FilterValuesType, TaskType} from './App';
 
 type TodoListPropsType = {
+  todoListID: string
   title: string
   tasks: Array<TaskType>
   filter: FilterValuesType
-  addTask: (title: string) => void
-  removeTask: (taskID: string) => void
-  changeFilter: (value: FilterValuesType) => void
-  changeTaskStatus: (taskID: string, newIsDoneValue: boolean) => void
+  addTask: (title: string, todoListID: string) => void
+  removeTask: (taskID: string, todoListID: string) => void
+  removeTodoList: (todoListID: string) => void
+  changeFilter: (FilterValues: FilterValuesType, todoListID: string) => void
+  changeTaskStatus: (taskID: string, isDone: boolean, todoListID: string) => void
 }
 
 function TodoList(props: TodoListPropsType) {
@@ -17,9 +19,10 @@ function TodoList(props: TodoListPropsType) {
   const [title, setTitle] = useState('')
   const [error, setError] = useState<boolean>(false)
   const tasksJSXElements = props.tasks.map(t => {
-    const removeTask = () => props.removeTask(t.id)
-    const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) =>
-      props.changeTaskStatus(t.id, e.currentTarget.checked)
+    const removeTask = () => props.removeTask(t.id, props.todoListID)
+    const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
+      props.changeTaskStatus(t.id, e.currentTarget.checked, props.todoListID)
+    }
     return (
       //условное присвоение класса
       <li className={t.isDone ? 'is-done' : ''}>
@@ -34,26 +37,26 @@ function TodoList(props: TodoListPropsType) {
   })
 
   const onClickAddTask = () => {
-    const trimmedTitle = title.trim()
-    if (trimmedTitle) {
-      props.addTask(trimmedTitle)
+    const validatedTitle = title.trim()
+    if (validatedTitle) {
+      props.addTask(validatedTitle, props.todoListID)
     } else {
       setError(true)
     }
     setTitle('')
+  }
+  const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.currentTarget.value)
+    setError(false)
   }
   const onKeyPressAddTask = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       onClickAddTask()
     }
   }
-  const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.currentTarget.value)
-    setError(false)
-  }
-  const onClickAllFilter = () => props.changeFilter("all")
-  const onClickActiveFilter = () => props.changeFilter("active")
-  const onClickCompletedFilter = () => props.changeFilter("completed")
+  const onClickAllFilter = () => props.changeFilter("all", props.todoListID)
+  const onClickActiveFilter = () => props.changeFilter("active", props.todoListID)
+  const onClickCompletedFilter = () => props.changeFilter("completed", props.todoListID)
   const errorMessage = error
     //? <div className={'error-message'}>Title is required!</div>
     // инлайновая стилизация: (встроенная)
@@ -62,7 +65,7 @@ function TodoList(props: TodoListPropsType) {
 
   return (
     <div>
-      <h3>{props.title}</h3>
+      <h3>{props.title}<button onClick={() => props.removeTodoList(props.todoListID)}>X</button></h3>
       <div>
         <input className = {error ? 'error' : ''}
           value={title}
