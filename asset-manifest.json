@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/iti_brello/static/css/main.76e27cc9.chunk.css",
+    "main.js": "/iti_brello/static/js/main.73ed3d86.chunk.js",
+    "main.js.map": "/iti_brello/static/js/main.73ed3d86.chunk.js.map",
+    "runtime-main.js": "/iti_brello/static/js/runtime-main.1383a8f5.js",
+    "runtime-main.js.map": "/iti_brello/static/js/runtime-main.1383a8f5.js.map",
+    "static/js/2.0c958ca7.chunk.js": "/iti_brello/static/js/2.0c958ca7.chunk.js",
+    "static/js/2.0c958ca7.chunk.js.map": "/iti_brello/static/js/2.0c958ca7.chunk.js.map",
+    "index.html": "/iti_brello/index.html",
+    "precache-manifest.285cb9178d354b1d983d2c8f77cb2482.js": "/iti_brello/precache-manifest.285cb9178d354b1d983d2c8f77cb2482.js",
+    "service-worker.js": "/iti_brello/service-worker.js",
+    "static/css/main.76e27cc9.chunk.css.map": "/iti_brello/static/css/main.76e27cc9.chunk.css.map",
+    "static/js/2.0c958ca7.chunk.js.LICENSE.txt": "/iti_brello/static/js/2.0c958ca7.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.1383a8f5.js",
+    "static/js/2.0c958ca7.chunk.js",
+    "static/css/main.76e27cc9.chunk.css",
+    "static/js/main.73ed3d86.chunk.js"
+  ]
+}
