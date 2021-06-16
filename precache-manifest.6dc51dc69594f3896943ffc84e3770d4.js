@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "a32735046918751688b0b46548747467",
+    "revision": "faea68def3c6ba70105962a94a4274fb",
     "url": "/iti_brello/index.html"
   },
   {
-    "revision": "780bc4808e3e627b06a3",
+    "revision": "bbab1e415c2e949c7a8c",
     "url": "/iti_brello/static/css/main.76e27cc9.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/iti_brello/static/js/2.0c958ca7.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "780bc4808e3e627b06a3",
-    "url": "/iti_brello/static/js/main.73ed3d86.chunk.js"
+    "revision": "bbab1e415c2e949c7a8c",
+    "url": "/iti_brello/static/js/main.7432e635.chunk.js"
   },
   {
     "revision": "ab1282151990dd021c10",

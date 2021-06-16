@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/iti_brello/precache-manifest.285cb9178d354b1d983d2c8f77cb2482.js"
+  "/iti_brello/precache-manifest.6dc51dc69594f3896943ffc84e3770d4.js"
 );
 
 self.addEventListener('message', (event) => {
