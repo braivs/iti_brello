@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/iti_brello/static/css/main.76e27cc9.chunk.css",
-    "main.js": "/iti_brello/static/js/main.7432e635.chunk.js",
-    "main.js.map": "/iti_brello/static/js/main.7432e635.chunk.js.map",
+    "main.css": "/iti_brello/static/css/main.f1e4e692.chunk.css",
+    "main.js": "/iti_brello/static/js/main.6ae6642b.chunk.js",
+    "main.js.map": "/iti_brello/static/js/main.6ae6642b.chunk.js.map",
     "runtime-main.js": "/iti_brello/static/js/runtime-main.1383a8f5.js",
     "runtime-main.js.map": "/iti_brello/static/js/runtime-main.1383a8f5.js.map",
-    "static/js/2.0c958ca7.chunk.js": "/iti_brello/static/js/2.0c958ca7.chunk.js",
-    "static/js/2.0c958ca7.chunk.js.map": "/iti_brello/static/js/2.0c958ca7.chunk.js.map",
+    "static/js/2.fff98071.chunk.js": "/iti_brello/static/js/2.fff98071.chunk.js",
+    "static/js/2.fff98071.chunk.js.map": "/iti_brello/static/js/2.fff98071.chunk.js.map",
     "index.html": "/iti_brello/index.html",
-    "precache-manifest.6dc51dc69594f3896943ffc84e3770d4.js": "/iti_brello/precache-manifest.6dc51dc69594f3896943ffc84e3770d4.js",
+    "precache-manifest.dd6f3a4dec6b0fac41689c9feefdbab4.js": "/iti_brello/precache-manifest.dd6f3a4dec6b0fac41689c9feefdbab4.js",
     "service-worker.js": "/iti_brello/service-worker.js",
-    "static/css/main.76e27cc9.chunk.css.map": "/iti_brello/static/css/main.76e27cc9.chunk.css.map",
-    "static/js/2.0c958ca7.chunk.js.LICENSE.txt": "/iti_brello/static/js/2.0c958ca7.chunk.js.LICENSE.txt"
+    "static/css/main.f1e4e692.chunk.css.map": "/iti_brello/static/css/main.f1e4e692.chunk.css.map",
+    "static/js/2.fff98071.chunk.js.LICENSE.txt": "/iti_brello/static/js/2.fff98071.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.1383a8f5.js",
-    "static/js/2.0c958ca7.chunk.js",
-    "static/css/main.76e27cc9.chunk.css",
-    "static/js/main.7432e635.chunk.js"
+    "static/js/2.fff98071.chunk.js",
+    "static/css/main.f1e4e692.chunk.css",
+    "static/js/main.6ae6642b.chunk.js"
   ]
 }
