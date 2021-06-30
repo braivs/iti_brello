@@ -4,6 +4,9 @@ import AddItemForm from './AddItemForm';
 import EditableSpan from './EditableSpan';
 import {Button, Checkbox, IconButton} from '@material-ui/core';
 import {Delete} from '@material-ui/icons';
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "./state/store";
+import {TodoListType} from "./AppWithRedux";
 
 type TodoListPropsType = {
   todoListID: string
@@ -21,6 +24,11 @@ type TodoListPropsType = {
 
 function TodoList(props: TodoListPropsType) {
   const {filter} = props
+
+  const todo = useSelector<AppRootStateType, TodoListType>(state => state.todolists.filter(t => t.id === props.todoListID)[0])
+  const tasksSel = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[props.todoListID])
+
+  const dispatch = useDispatch()
 
   const tasksJSXElements = props.tasks.map(t => {
     const removeTask = () => props.removeTask(t.id, props.todoListID)
@@ -44,7 +52,10 @@ function TodoList(props: TodoListPropsType) {
     )
   })
 
-  const addTask = (title: string) => props.addTask(title, props.todoListID)
+  const addTask = (title: string) => {
+    //dispatch(addTaskAC(title, todoListID))
+    props.addTask(title, props.todoListID)
+  }
   const changeTodoListTitle = (title: string) => props.changeTodoListTitle(title, props.todoListID)
 
   const onClickAllFilter = () => props.changeFilter('all', props.todoListID)
