@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useCallback} from 'react';
 import {FilterValuesType, TaskType} from './App';
 import AddItemForm from './AddItemForm';
 import EditableSpan from './EditableSpan';
@@ -22,7 +22,9 @@ type TodoListPropsType = {
   changeTodoListTitle: (title: string, todoListID: string) => void
 }
 
-function TodoList(props: TodoListPropsType) {
+const TodoList = React.memo((props: TodoListPropsType) => {
+  console.log('Todolist')
+
   const {filter} = props
 
   const todo = useSelector<AppRootStateType, TodoListType>(state => state.todolists.filter(t => t.id === props.todoListID)[0])
@@ -37,25 +39,13 @@ function TodoList(props: TodoListPropsType) {
     }
     const changeTaskTitle = (title: string) => props.changeTaskTitle(t.id, title, props.todoListID)
 
-    return (
-      <div key={t.id} className={t.isDone ? 'is-done' : ''}>
-        <Checkbox
-          checked={t.isDone}
-          color="primary"
-          onChange={changeTaskStatus}
-        />
-        <EditableSpan title={t.title} changeTitle={changeTaskTitle}/>
-        <IconButton onClick={removeTask}>
-          <Delete/>
-        </IconButton>
-      </div>
-    )
+    return <Task />
   })
 
-  const addTask = (title: string) => {
+  const addTask = useCallback((title: string) => {
     //dispatch(addTaskAC(title, todoListID))
     props.addTask(title, props.todoListID)
-  }
+  },[])
   const changeTodoListTitle = (title: string) => props.changeTodoListTitle(title, props.todoListID)
 
   const onClickAllFilter = () => props.changeFilter('all', props.todoListID)
@@ -95,6 +85,6 @@ function TodoList(props: TodoListPropsType) {
       </div>
     </div>
   )
-}
+})
 
 export default TodoList;
