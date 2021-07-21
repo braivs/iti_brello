@@ -1,3 +1,5 @@
+// start wednesday circle 2
+
 import React, {useState} from 'react';
 import './App.css';
 import TodoList from './TodoList';
@@ -6,7 +8,6 @@ import AddItemForm from './AddItemForm';
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@material-ui/core';
 import {Menu} from '@material-ui/icons';
 
-//new branch
 export type TaskType = {
   id: string
   title: string
