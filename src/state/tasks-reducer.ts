@@ -1,5 +1,6 @@
 import {FilterValuesType, TasksStateType, TaskType, TodoListType} from '../App';
 import {v1} from 'uuid';
+import { AddTodoListAT, RemoveTodoListAT } from './todolists-reducer';
 
 type RemoveTaskActionType = {
   type: 'REMOVE-TASK'
@@ -20,7 +21,16 @@ type ChangeTaskStatusActionType = {
   todoListID: string
 }
 
-export type ActionType = RemoveTaskActionType | AddTaskActionType | ChangeTaskStatusActionType
+type ChangeTaskTitleActionType = {
+  type: 'CHANGE-TASK-TITLE'
+  taskID: string
+  title: string
+  todoListID: string
+}
+
+
+export type ActionType = RemoveTaskActionType | AddTaskActionType | ChangeTaskStatusActionType | ChangeTaskTitleActionType
+| AddTodoListAT | RemoveTodoListAT
 
 export const tasksReducer = (state: TasksStateType, action: ActionType) => {
   switch (action.type) {
@@ -42,7 +52,21 @@ export const tasksReducer = (state: TasksStateType, action: ActionType) => {
         ? {...task, isDone: action.isDone}
         : task)
       return copyState
-
+    }
+    case "CHANGE-TASK-TITLE": {
+      const copyState = {...state}
+      copyState[action.todoListID] = state[action.todoListID].map(task => task.id === action.taskID
+        ? {...task, title: action.title}
+        : task)
+      return copyState
+    }
+    case 'ADD-TODOLIST': {
+      return {...state, [action.todolistId]: []}
+    }
+    case 'REMOVE-TODOLIST': {
+      const copyState = {...state}
+      delete copyState[action.todoListID]
+      return copyState
     }
     default:
       throw new Error("I don`t understand this action type")
@@ -60,6 +84,11 @@ export const addTaskAC = (title: string, todoListId: string): AddTaskActionType 
 export const changeTaskStatusAC = (taskID: string, isDone: boolean, todoListID: string): ChangeTaskStatusActionType => {
   return {type: 'CHANGE-TASK-STATUS', taskID, isDone, todoListID}
 }
+
+export const changeTaskTitleAC = (taskID: string, title: string, todoListID: string): ChangeTaskTitleActionType => {
+  return {type: 'CHANGE-TASK-TITLE', taskID, title, todoListID}
+}
+
 
 
 
