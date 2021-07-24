@@ -29,9 +29,14 @@ export type ActionType = RemoveTodoListAT | AddTodoListAT | ChangeTodoListFilter
 export const todoListsReducer = (todoLists: Array<TodoListType>,
                                  action: ActionType) => {
   switch (action.type) {
-    case 'REMOVE-TODOLIST':
+    case 'REMOVE-TODOLIST': {
       return todoLists.filter(tl => tl.id !== action.todoListID)
-    case 'ADD-TODOLIST':
+    }
+    case 'ADD-TODOLIST': {
+      // short:
+      // return [...todoLists, {id: action.todolistId, title: action.title, filter: "all"}]
+
+      // detailer:
       const newTodoListID = action.todolistId
       const newTodoList: TodoListType = {
         id: newTodoListID,
@@ -39,12 +44,33 @@ export const todoListsReducer = (todoLists: Array<TodoListType>,
         filter: 'all'
       }
       return [...todoLists, newTodoList]
-    case 'CHANGE-TODOLIST-FILTER':
-      return todoLists.map(tl => tl.id === action.todoListID ?
-        {...tl, filter: action.filter} : tl)
-    case 'CHANGE-TODOLIST-TITLE':
-      return todoLists.map(tl => tl.id === action.todoListID ?
-        {...tl, title: action.title} : tl)
+    }
+    case 'CHANGE-TODOLIST-FILTER': {
+      // short:
+      /*return todoLists.map(tl => tl.id === action.todoListID ?
+        {...tl, filter: action.filter} : tl)*/
+
+      // detailed:
+      const todolist = todoLists.find(tl => tl.id === action.todoListID);
+      if (todolist) {
+        // если нашёлся - изменим ему фильтр
+        todolist.filter = action.filter;
+      }
+      return [...todoLists];
+    }
+    case 'CHANGE-TODOLIST-TITLE': {
+      // short:
+      /*return todoLists.map(tl => tl.id === action.todoListID ?
+        {...tl, title: action.title} : tl)*/
+
+      // detailed:
+      const todolist = todoLists.find(tl => tl.id === action.todoListID);
+      if (todolist) {
+        // если нашёлся - изменим ему заголовок
+        todolist.title = action.title;
+      }
+      return [...todoLists]
+    }
     default:
       return todoLists
   }
