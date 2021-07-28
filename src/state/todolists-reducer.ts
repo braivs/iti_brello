@@ -1,4 +1,4 @@
-import {FilterValuesType, TodoListType} from '../App';
+import {FilterValuesType, TasksStateType, TodoListType} from '../App';
 import {v1} from 'uuid';
 
 export type RemoveTodoListAT = {
@@ -26,15 +26,17 @@ type ChangeTodolistTitleAT = {
 
 export type ActionType = RemoveTodoListAT | AddTodoListAT | ChangeTodoListFilterAT | ChangeTodolistTitleAT
 
-export const todoListsReducer = (todoLists: Array<TodoListType>,
-                                 action: ActionType) => {
+
+const initialState: Array<TodoListType> = []
+
+export const todoListsReducer = (state = initialState, action: ActionType): Array<TodoListType> => {
   switch (action.type) {
     case 'REMOVE-TODOLIST': {
-      return todoLists.filter(tl => tl.id !== action.todoListID)
+      return state.filter(tl => tl.id !== action.todoListID)
     }
     case 'ADD-TODOLIST': {
       // short:
-      // return [...todoLists, {id: action.todolistId, title: action.title, filter: "all"}]
+      // return [...state, {id: action.todolistId, title: action.title, filter: "all"}]
 
       // detailer:
       const newTodoListID = action.todolistId
@@ -43,36 +45,36 @@ export const todoListsReducer = (todoLists: Array<TodoListType>,
         title: action.title,
         filter: 'all'
       }
-      return [...todoLists, newTodoList]
+      return [...state, newTodoList]
     }
     case 'CHANGE-TODOLIST-FILTER': {
       // short:
-      /*return todoLists.map(tl => tl.id === action.todoListID ?
+      /*return state.map(tl => tl.id === action.todoListID ?
         {...tl, filter: action.filter} : tl)*/
 
       // detailed:
-      const todolist = todoLists.find(tl => tl.id === action.todoListID);
+      const todolist = state.find(tl => tl.id === action.todoListID);
       if (todolist) {
         // если нашёлся - изменим ему фильтр
         todolist.filter = action.filter;
       }
-      return [...todoLists];
+      return [...state];
     }
     case 'CHANGE-TODOLIST-TITLE': {
       // short:
-      /*return todoLists.map(tl => tl.id === action.todoListID ?
+      /*return state.map(tl => tl.id === action.todoListID ?
         {...tl, title: action.title} : tl)*/
 
       // detailed:
-      const todolist = todoLists.find(tl => tl.id === action.todoListID);
+      const todolist = state.find(tl => tl.id === action.todoListID);
       if (todolist) {
         // если нашёлся - изменим ему заголовок
         todolist.title = action.title;
       }
-      return [...todoLists]
+      return [...state]
     }
     default:
-      return todoLists
+      return state
   }
 }
 
