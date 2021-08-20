@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
+import {todolistsApi} from "../api/todolists-api";
 
 export default {
   title: 'API'
@@ -19,7 +20,7 @@ export const GetTodolists = () => {
   useEffect(() => {
     // здесь мы будем делать запрос и ответ закидывать в стейт.
     // который в виде строки будем отображать в div-ке
-    axios.get('https://social-network.samuraijs.com/api/1.1/todo-lists', settings)
+    todolistsApi.getTodolists()
       .then((res) => {
         setState(res.data)
       })
@@ -32,7 +33,8 @@ export const GetTodolists = () => {
 export const CreateTodolist = () => {
   const [state, setState] = useState<any>(null)
   useEffect(() => {
-    axios.post('https://social-network.samuraijs.com/api/1.1/todo-lists', {title: 'Briws todolist'} ,settings)
+    //axios.post('https://social-network.samuraijs.com/api/1.1/todo-lists', {title: 'Briws todolist'} ,settings)
+    todolistsApi.createTodolist('Briws blabla todolist')
       .then((res) => {
         setState(res.data)
       })
@@ -43,7 +45,8 @@ export const CreateTodolist = () => {
 export const DeleteTodolist = () => {
   const [state, setState] = useState<any>(null)
   useEffect(() => {
-    axios.delete('https://social-network.samuraijs.com/api/1.1/todo-lists/a325f6ac-dcd6-4e46-838d-e89088c6edad', settings)
+    const todolistId = '3768c741-363d-460c-b7e4-6aa5096bdbfe'
+    todolistsApi.deleteTodolist(todolistId)
       .then((res) => {
         debugger;
         setState(res.data)
@@ -54,8 +57,11 @@ export const DeleteTodolist = () => {
 }
 export const UpdateTodolistTitle = () => {
   const [state, setState] = useState<any>(null)
+
   useEffect(() => {
-    axios.put('https://social-network.samuraijs.com/api/1.1/todo-lists/3768c741-363d-460c-b7e4-6aa5096bdbfe', {title: 'MagicHey'} ,settings)
+    const todolistId = '117d1769-efec-46a3-aea9-4ab9b4dd5da1'
+    const title = 'MagicHey'
+    todolistsApi.updateTodolist(todolistId, title)
       .then((res) => {
         setState(res.data)
       })
