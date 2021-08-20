@@ -36,6 +36,7 @@ export const CreateTodolist = () => {
     //axios.post('https://social-network.samuraijs.com/api/1.1/todo-lists', {title: 'Briws todolist'} ,settings)
     todolistsApi.createTodolist('Briws blabla todolist')
       .then((res) => {
+        debugger
         setState(res.data)
       })
   }, [])
@@ -45,7 +46,7 @@ export const CreateTodolist = () => {
 export const DeleteTodolist = () => {
   const [state, setState] = useState<any>(null)
   useEffect(() => {
-    const todolistId = '3768c741-363d-460c-b7e4-6aa5096bdbfe'
+    const todolistId = '8ef303a9-55dc-4f43-8f95-e4677e0ed11b'
     todolistsApi.deleteTodolist(todolistId)
       .then((res) => {
         debugger;
