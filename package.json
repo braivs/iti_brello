@@ -62,15 +62,15 @@
     ]
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^6.3.4",
-    "@storybook/addon-essentials": "^6.3.4",
-    "@storybook/addon-links": "^6.3.4",
-    "@storybook/node-logger": "^6.3.4",
+    "@storybook/addon-actions": "^6.3.7",
+    "@storybook/addon-essentials": "^6.3.7",
+    "@storybook/addon-links": "^6.3.7",
+    "@storybook/node-logger": "^6.3.7",
     "@storybook/preset-create-react-app": "^3.2.0",
-    "@storybook/react": "^6.3.4",
+    "@storybook/react": "^6.3.7",
     "jest-image-snapshot": "^4.5.1",
     "jest-puppeteer": "^5.0.4",
-    "puppeteer": "^10.1.0",
-    "start-server-and-test": "^1.12.6"
+    "puppeteer": "^10.2.0",
+    "start-server-and-test": "^1.13.1"
   }
 }

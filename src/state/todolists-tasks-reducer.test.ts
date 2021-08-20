@@ -1,12 +1,12 @@
-import {TasksStateType, TodoListType} from "../App";
-import {addTodoListAC, todoListsReducer} from "./todolists-reducer";
-import {tasksReducer} from "./tasks-reducer";
+import { TasksStateType, TodoListType } from "../App";
+import { tasksReducer } from "./tasks-reducer";
+import {AddTodoListAC, todoListsReducer } from "./todolists-reducer";
 
 test('ids should be equals', () => {
   const startTasksState: TasksStateType = {};
   const startTodolistsState: Array<TodoListType> = [];
 
-  const action = addTodoListAC("new todolist");
+  const action = AddTodoListAC("new todolist");
 
   const endTasksState = tasksReducer(startTasksState, action)
   const endTodolistsState = todoListsReducer(startTodolistsState, action)
@@ -15,6 +15,10 @@ test('ids should be equals', () => {
   const idFromTasks = keys[0];
   const idFromTodolists = endTodolistsState[0].id;
 
+  expect(idFromTasks === idFromTodolists).toBe(true)
+
   expect(idFromTasks).toBe(action.todolistId);
   expect(idFromTodolists).toBe(action.todolistId);
 });
+
+

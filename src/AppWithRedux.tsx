@@ -1,18 +1,16 @@
-import React, {useCallback, useReducer} from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
 import TodoList from './TodoList';
-import {v1} from 'uuid';
 import AddItemForm from './AddItemForm';
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@material-ui/core';
 import {Menu} from '@material-ui/icons';
+import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";
 import {
-  addTodoListAC,
-  changeTodoListFilterAC,
-  changeTodolistTitleAC,
-  removeTodoListAC,
-  todoListsReducer
+  AddTodoListAC,
+  ChangeTodoListFilterAC,
+  ChangeTodolistTitleAC,
+  removeTodoListAC
 } from "./state/todolists-reducer";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
 
@@ -36,98 +34,97 @@ export type TasksStateType = {
 
 
 function AppWithRedux() {
-  console.log('App is called')
 
-  const todolists = useSelector<AppRootStateType, TodoListType[]>(state => state.todolists)
-  const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks )
+  let todoLists = useSelector<AppRootStateType, TodoListType[]>(state => state.todolists)
+  let tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+
   const dispatch = useDispatch()
 
-  const removeTask = useCallback((taskID: string, todoListID: string) =>  {
-
-    dispatch(removeTaskAC(taskID, todoListID))
-  },[dispatch])
+  const removeTask = useCallback((taskID: string, todoListID: string) => {
+    const action = removeTaskAC(taskID, todoListID)
+    dispatch(action)
+  },[])
 
   const addTask = useCallback((title: string, todoListID: string) => {
-
-    dispatch(addTaskAC(title, todoListID))
-  },[dispatch])
+    const action = addTaskAC(title, todoListID)
+    dispatch(action)
+  },[])
 
   const changeTaskStatus = useCallback((taskID: string, isDone: boolean, todoListID: string) => {
-
-    dispatch(changeTaskStatusAC(taskID, isDone, todoListID))
-  },[dispatch])
-
-  const changeTaskTitle = useCallback((taskID: string, title: string, todoListID: string) => {
-
-    dispatch(changeTaskTitleAC(taskID, title, todoListID))
-  },[dispatch])
-
-  const changeTodoListFilter = useCallback((value: FilterValuesType, todoListID: string) => {
-    let action = changeTodoListFilterAC(value, todoListID)
+    const action = changeTaskStatusAC(taskID, isDone, todoListID)
     dispatch(action)
-  },[dispatch])
+  }, [])
 
-  const changeTodoListTitle = useCallback((title: string, todoListID: string) => {
-    dispatch(changeTodolistTitleAC(title, todoListID))
-  },[dispatch])
+  const changeTaskTitle = useCallback((taskID: string, taskTitle: string, todoListID: string) => {
+    const action = changeTaskTitleAC(taskID, taskTitle, todoListID)
+    dispatch(action)
+  }, [])
+
+  const changeTodoListFilter = useCallback((filter: FilterValuesType, todoListID: string) => {
+    const action = ChangeTodoListFilterAC(filter, todoListID)
+    dispatch(action)
+  }, [])
 
   const removeTodoList = useCallback((todoListID: string) => {
-    let action = removeTodoListAC(todoListID);
+    const action = removeTodoListAC(todoListID)
     dispatch(action)
-  },[dispatch])
+  }, [])
+
+  const changeTodoListTitle = useCallback((title: string, todoListID: string) => {
+    const action = ChangeTodolistTitleAC(title, todoListID)
+    dispatch(action)
+  }, [])
 
   const addTodoList = useCallback((title: string) => {
-    let action = addTodoListAC(title)
+    const action = AddTodoListAC(title)
     dispatch(action)
-  },[dispatch])
-
-  const todoListComponents = todolists.map(tl => {
-    let allTodolistsTasks = tasks[tl.id]
-    const tasksForTodolist = allTodolistsTasks
-
-    return <Grid item>
-      <Paper style={{padding: '10px'}}>
-        <TodoList
-          key={tl.id}
-          todoListID={tl.id}
-          title={tl.title}
-          tasks={tasksForTodolist}
-          filter={tl.filter}
-          addTask={addTask}
-          removeTask={removeTask}
-          removeTodoList={removeTodoList}
-          changeFilter={changeTodoListFilter}
-          changeTaskStatus={changeTaskStatus}
-          changeTaskTitle={changeTaskTitle}
-          changeTodoListTitle={changeTodoListTitle}
-        />
-      </Paper>
-    </Grid>
-  })
+  }, [])
 
   return (
     <div className="App">
       <AppBar position="static">
-        <Toolbar style={{justifyContent: 'space-between'}}>
+        <Toolbar>
           <IconButton edge="start" color="inherit" aria-label="menu">
             <Menu/>
           </IconButton>
           <Typography variant="h6">
-            Brello
+            News
           </Typography>
-          <Button color="inherit" variant={'outlined'}>Login</Button>
+          <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
       <Container fixed>
-        <Grid container style={{padding: '20px'}}>
+        <Grid container style={{padding: "20px"}}>
           <AddItemForm addItem={addTodoList}/>
         </Grid>
         <Grid container spacing={3}>
-          {todoListComponents}
+          {
+            todoLists.map(tl => {
+
+              return <Grid item key={tl.id}>
+                <Paper style={{padding: "10px"}}>
+                  <TodoList
+                    key={tl.id}
+                    todoListID={tl.id}
+                    title={tl.title}
+                    tasks={tasks[tl.id]}
+                    removeTask={removeTask}
+                    changeFilter={changeTodoListFilter}
+                    addTask={addTask}
+                    changeTaskStatus={changeTaskStatus}
+                    filter={tl.filter}
+                    removeTodoList={removeTodoList}
+                    changeTaskTitle={changeTaskTitle}
+                    changeTodoListTitle={changeTodoListTitle}
+                  />
+                </Paper>
+              </Grid>
+            })
+          }
         </Grid>
       </Container>
     </div>
-  );
+  )
 }
 
 export default AppWithRedux;
