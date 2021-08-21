@@ -26,10 +26,9 @@ type ResponseType<D = {}> = {
   data: D
 }
 
-export type TasksType = {
+export type TasksEntityType = {
   description: string
   title: string
-  completed: boolean
   status: number
   priority: number
   startDate: string
@@ -40,11 +39,26 @@ export type TasksType = {
   addedDate: string
 }
 
+export type UpdateTaskModelType = {
+  title: string
+  description: string
+  completed: boolean
+  status: number
+  priority: number
+  startDate: string
+  deadline: string
+}
+
 type GetTasksResponse = {
   error: string | null
   totalCount: number
-  items: TasksType[]
+  items: TasksEntityType[]
 }
+
+// tried to fix server error
+/*const errorEmulation = {
+data:{}, messages: ["The Title field is required. (Title)"],"fieldsErrors":[],"resultCode":1
+}*/
 
 export const todolistsApi = {
   getTodolists() {
@@ -56,7 +70,10 @@ export const todolistsApi = {
     return promise;
   },
   deleteTodolist(id: string) {
-    const promise = instance.delete<ResponseType>(`todo-lists/${id}`);
+    debugger
+    const promise = instance.delete<ResponseType>(`todo-lists/${id}`)
+      // : new Promise((res, rej) => {res({errorEmulation})}); // tried to fix server error
+      // : 'id is required';
     return promise;
   },
   updateTodolist(id: string, title: string) {
@@ -66,7 +83,14 @@ export const todolistsApi = {
   getTasks(todolistId: string) {
     return instance.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`);
   },
+  createTask(todolistId: string, taskTitle: string) {
+    let promise = instance.post<ResponseType<{ item: TasksEntityType }>>(`/todo-lists/${todolistId}/tasks`, {title: taskTitle})
+    return promise
+  },
   deleteTask(todolistId: string, taskId: string) {
     return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`);
+  },
+  updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
+    return instance.put<ResponseType<{ item: TasksEntityType }>>(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
   }
 }
