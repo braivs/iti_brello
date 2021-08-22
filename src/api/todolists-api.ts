@@ -26,7 +26,7 @@ type ResponseType<D = {}> = {
   data: D
 }
 
-export type TasksEntityType = {
+export type TasksType = {
   description: string
   title: string
   status: number
@@ -39,10 +39,9 @@ export type TasksEntityType = {
   addedDate: string
 }
 
-export type UpdateTaskModelType = {
+type UpdateTaskModelType = {
   title: string
   description: string
-  completed: boolean
   status: number
   priority: number
   startDate: string
@@ -52,7 +51,7 @@ export type UpdateTaskModelType = {
 type GetTasksResponse = {
   error: string | null
   totalCount: number
-  items: TasksEntityType[]
+  items: TasksType[]
 }
 
 // tried to fix server error
@@ -84,13 +83,13 @@ export const todolistsApi = {
     return instance.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`);
   },
   createTask(todolistId: string, taskTitle: string) {
-    let promise = instance.post<ResponseType<{ item: TasksEntityType }>>(`/todo-lists/${todolistId}/tasks`, {title: taskTitle})
+    let promise = instance.post<ResponseType<{ item: TasksType }>>(`/todo-lists/${todolistId}/tasks`, {title: taskTitle})
     return promise
   },
   deleteTask(todolistId: string, taskId: string) {
     return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`);
   },
   updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
-    return instance.put<ResponseType<{ item: TasksEntityType }>>(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
+    return instance.put<ResponseType<{ item: TasksType }>>(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
   }
 }
