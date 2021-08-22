@@ -1,14 +1,12 @@
 import React, {ChangeEvent, useCallback} from 'react';
-import {FilterValuesType, TaskType} from './App';
 import AddItemForm from './AddItemForm';
 import EditableSpan from './EditableSpan';
-import {Button, Checkbox, IconButton} from '@material-ui/core';
+import {Button, IconButton} from '@material-ui/core';
 import {Delete} from '@material-ui/icons';
-import {useSelector} from "react-redux";
-import {AppRootStateType} from "./state/store";
-import {TodoListType} from "./AppWithRedux";
-import {Task} from "./Task";
 import {TaskWithDispatch} from "./TaskWithDispatch";
+import {TaskStatuses, TaskType} from "./api/todolists-api";
+import {FilterValuesType} from "./state/todolists-reducer";
+import {Task} from "./Task";
 
 type TodoListPropsType = {
   todoListID: string
@@ -19,7 +17,7 @@ type TodoListPropsType = {
   removeTask: (taskID: string, todoListID: string) => void
   removeTodoList: (todoListID: string) => void
   changeFilter: (FilterValues: FilterValuesType, todoListID: string) => void
-  changeTaskStatus: (taskID: string, isDone: boolean, todoListID: string) => void
+  changeTaskStatus: (taskID: string, status: TaskStatuses, todoListID: string) => void
   changeTaskTitle: (taskID: string, title: string, todoListID: string) => void
   changeTodoListTitle: (title: string, todoListID: string) => void
 }
@@ -33,27 +31,23 @@ const TodoList = React.memo(function (props: TodoListPropsType) {
   let tasksForTodolist = allTodolistTasks
 
   if (props.filter === "active") {
-    tasksForTodolist = allTodolistTasks.filter(t => t.isDone);
+    tasksForTodolist = allTodolistTasks.filter(t => t.status === TaskStatuses.New);
   }
   if (props.filter === "completed") {
-    tasksForTodolist = allTodolistTasks.filter(t => t.isDone);
+    tasksForTodolist = allTodolistTasks.filter(t => t.status === TaskStatuses.Completed);
   }
 
 
   const tasksJSXElements = tasksForTodolist.map(t => {
-    const removeTask = () => props.removeTask(t.id, props.todoListID)
-    const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
-      props.changeTaskStatus(t.id, e.currentTarget.checked, props.todoListID)
-    }
-    // return <Task
-    //   key = {t.id}
-    //   todolistId = {props.todoListID}
-    //   task = {t}
-    //   changeTaskStatus = {props.changeTaskStatus}
-    //   changeTaskTitle = {props.changeTaskTitle}
-    //   removeTask = {props.removeTask}
-    //
-    // />
+    /*return <Task
+      key = {t.id}
+      todolistId = {props.todoListID}
+      task = {t}
+      changeTaskStatus = {props.changeTaskStatus}
+      changeTaskTitle = {props.changeTaskTitle}
+      removeTask = {props.removeTask}
+
+    />*/
     return <TaskWithDispatch key={t.id} todolistId={props.todoListID} task={t} />
   })
 

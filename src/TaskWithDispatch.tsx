@@ -1,12 +1,11 @@
-import React, {ChangeEvent, useCallback} from 'react';
+import React, {ChangeEvent} from 'react';
 import {Checkbox, IconButton} from "@material-ui/core";
 import EditableSpan from "./EditableSpan";
 import {Delete} from "@material-ui/icons";
-import {TasksStateType, TaskType} from "./AppWithRedux";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
 import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";
-import {removeTodoListAC} from "./state/todolists-reducer";
+import {TaskStatuses, TaskType} from "./api/todolists-api";
 
 export type TaskPropsType = {
   todolistId: string
@@ -17,9 +16,6 @@ export type TaskPropsType = {
 
 export const TaskWithDispatch = React.memo((props:TaskPropsType) => {
 
-  // console.log('TaskWithDispatch')
-
-
   const task = useSelector<AppRootStateType, TaskType>(state => state.tasks[props.todolistId]
     .filter(task => task.id === props.task.id)[0])
 
@@ -27,7 +23,7 @@ export const TaskWithDispatch = React.memo((props:TaskPropsType) => {
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     let newIsDoneValue = e.currentTarget.checked
-    const action = changeTaskStatusAC(task.id, newIsDoneValue, props.todolistId)
+    const action = changeTaskStatusAC(task.id, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New, props.todolistId)
     dispatch(action)
   }
 
@@ -37,13 +33,13 @@ export const TaskWithDispatch = React.memo((props:TaskPropsType) => {
   }
 
   const onClickHandler = () => {
-    const action = removeTaskAC(props.todolistId, props.todolistId)
+    const action = removeTaskAC(props.task.id, props.todolistId)
     dispatch(action)
   }
 
-  return <div key={props.task.id} className={props.task.isDone ? 'is-done' : ''}>
+  return <div key={props.task.id} className={props.task.status === TaskStatuses.Completed ? 'is-done' : ''}>
     <Checkbox
-      checked={props.task.isDone}
+      checked={props.task.status === TaskStatuses.Completed}
       color="primary"
       onChange={onChangeHandler}
     />
