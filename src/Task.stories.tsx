@@ -11,7 +11,7 @@ const removeTaskCallback = action('Remove Task')
 export default {
   title: 'TODOLIST/Task',
   component: Task,
-  arg: {
+  args: {
     changeTaskStatus: changeTaskStatusCallback,
     changeTaskTitle: changeTaskTitleCallback,
     removeTask: removeTaskCallback
@@ -20,22 +20,21 @@ export default {
 
 const Template: ComponentStory<typeof Task> = (args) => <Task {...args} />;
 
-const args = {
-  changeTaskStatus: changeTaskStatusCallback,
-  changeTaskTitle: changeTaskTitleCallback,
-  removeTask: removeTaskCallback
-}
-
 export const TaskIsDone = Template.bind({});
 TaskIsDone.args = {
-  task: {id: '1', status: TaskStatuses.Completed, title: 'redux', todoListId: 'todo1', description: '',
-    startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low},
-  todolistId: 'todo1'
+  task: {
+    id: '1', status: TaskStatuses.Completed, title: 'redux', todoListId: 'todo1', description: '',
+    startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low
+  },
+  todolistId: 'todo1',
+
 };
 export const TaskIsNotDone = Template.bind({});
 TaskIsNotDone.args = {
-  task: {id: '2', status: TaskStatuses.New, title: 'JS', todoListId : 'todo2', description: '',
-    startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low},
+  task: {
+    id: '2', status: TaskStatuses.New, title: 'JS', todoListId: 'todo2', description: '',
+    startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low
+  },
   todolistId: 'todo2'
 };
 
