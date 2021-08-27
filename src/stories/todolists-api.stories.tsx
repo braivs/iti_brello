@@ -36,7 +36,6 @@ export const CreateTodolist = () => {
   const addTodolist = () => {
     todolistsAPI.createTodolist(title)
       .then((res) => {
-        debugger
         setState(res.data)
       })
   }
@@ -58,7 +57,6 @@ export const DeleteTodolist = () => {
   const deleteTodolist = () => {
    todolistsAPI.deleteTodolist(todolistId)
       .then((res) => {
-        debugger;
         setState(res.data)
       })
   }

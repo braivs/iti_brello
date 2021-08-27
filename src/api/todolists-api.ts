@@ -83,7 +83,6 @@ export const todolistsAPI = {
     return promise;
   },
   deleteTodolist(id: string) {
-    debugger
     const promise = instance.delete<ResponseType>(`todo-lists/${id}`)
       // : new Promise((res, rej) => {res({errorEmulation})}); // tried to fix server error
       // : 'id is required';
