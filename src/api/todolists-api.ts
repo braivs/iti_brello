@@ -73,7 +73,7 @@ type GetTasksResponse = {
 data:{}, messages: ["The Title field is required. (Title)"],"fieldsErrors":[],"resultCode":1
 }*/
 
-export const todolistsApi = {
+export const todolistsAPI = {
   getTodolists() {
     const promise = instance.get<TodoListType[]>('todo-lists');
     return promise;

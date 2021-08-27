@@ -1,6 +1,6 @@
 import {
   ActionType, AddTodoListAC, ChangeTodoListFilterAC, ChangeTodolistTitleAC, FilterValuesType,
-  removeTodoListAC, TodoListDomainType,
+  removeTodoListAC, setTodolistsAC, TodoListDomainType,
   todoListsReducer
 } from './todolists-reducer';
 import {v1} from 'uuid';
@@ -68,6 +68,14 @@ test('correct todolist should change its name', () => {
 
   expect(endState[0].title).toBe("What to learn");
   expect(endState[1].title).toBe(newTodolistTitle);
+});
+
+test('todolists should be set to the state', () => {
+  const action = setTodolistsAC(startState)
+
+  const endState = todoListsReducer([], action);
+
+  expect(endState.length).toBe(2);
 });
 
 
