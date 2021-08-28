@@ -100,7 +100,7 @@ export const AddTodoListAC = (todolist: TodoListType): AddTodoListAT => {
   }
 }
 
-export const ChangeTodoListFilterAC = (filter: FilterValuesType, todoListID: string): ChangeTodoListFilterAT => {
+export const changeTodoListFilterAC = (filter: FilterValuesType, todoListID: string): ChangeTodoListFilterAT => {
   return {
     type: 'CHANGE-TODOLIST-FILTER',
     filter: filter,
@@ -144,6 +144,15 @@ export const addTodolistTC = (title: string) => {
     todolistsAPI.createTodolist(title)
       .then((res) => {
         dispatch(AddTodoListAC(res.data.data.item))
+      })
+  }
+}
+
+export const changeTodolistTitleTC = (title: string, todoListID: string, ) => {
+  return (dispatch: Dispatch) => {
+    todolistsAPI.updateTodolist(todoListID, title)
+      .then((res) => {
+        dispatch(ChangeTodolistTitleAC(title, todoListID))
       })
   }
 }

@@ -5,10 +5,10 @@ import {v1} from 'uuid';
 import AddItemForm from './AddItemForm';
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@material-ui/core';
 import {Menu} from '@material-ui/icons';
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./state/tasks-reducer";
+import {addTaskAC, updateTaskAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./state/tasks-reducer";
 import {
   AddTodoListAC,
-  ChangeTodoListFilterAC,
+  changeTodoListFilterAC,
   ChangeTodolistTitleAC, FilterValuesType,
   removeTodoListAC,
   todoListsReducer
@@ -74,18 +74,18 @@ function AppWithReducers() {
     dispatchToTasks(action)
   }
 
-  function changeTaskStatus(taskID: string, status: TaskStatuses, todoListID: string) {
-    const action = changeTaskStatusAC(taskID, status, todoListID)
+  function changeTaskStatus(taskId: string, status: TaskStatuses, todoListId: string) {
+    const action = updateTaskAC(taskId, {status}, todoListId)
     dispatchToTasks(action)
   }
 
   function changeTaskTitle(taskID: string, taskTitle: string, todoListID: string) {
-    const action = changeTaskTitleAC(taskID, taskTitle, todoListID)
+    const action = updateTaskAC(taskID, {title: taskTitle}, todoListID)
     dispatchToTasks(action)
   }
 
   function changeTodoListFilter(filter: FilterValuesType, todoListID: string) {
-    const action = ChangeTodoListFilterAC(filter, todoListID)
+    const action = changeTodoListFilterAC(filter, todoListID)
     dispatchToTodolists(action)
   }
 
@@ -101,7 +101,12 @@ function AppWithReducers() {
   }
 
   function addTodoList(title: string) {
-    const action = AddTodoListAC(title)
+    const action = AddTodoListAC({
+      id: v1(),
+      addedDate: '',
+      order: 0,
+      title: title
+    })
     dispatchToTodolists(action)
     dispatchToTasks(action)
   }
