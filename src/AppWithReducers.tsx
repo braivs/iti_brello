@@ -5,11 +5,11 @@ import {v1} from 'uuid';
 import AddItemForm from './AddItemForm';
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@material-ui/core';
 import {Menu} from '@material-ui/icons';
-import {addTaskAC, updateTaskAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./state/tasks-reducer";
+import {addTaskAC, updateTaskAC, removeTaskAC, tasksReducer} from "./state/tasks-reducer";
 import {
-  AddTodoListAC,
+  addTodoListAC,
   changeTodoListFilterAC,
-  ChangeTodolistTitleAC, FilterValuesType,
+  changeTodolistTitleAC, FilterValuesType,
   removeTodoListAC,
   todoListsReducer
 } from "./state/todolists-reducer";
@@ -96,12 +96,12 @@ function AppWithReducers() {
   }
 
   function changeTodoListTitle(title: string, todoListID: string) {
-    const action = ChangeTodolistTitleAC(title, todoListID)
+    const action = changeTodolistTitleAC(title, todoListID)
     dispatchToTodolists(action)
   }
 
   function addTodoList(title: string) {
-    const action = AddTodoListAC({
+    const action = addTodoListAC({
       id: v1(),
       addedDate: '',
       order: 0,
