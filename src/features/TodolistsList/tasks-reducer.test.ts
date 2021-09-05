@@ -5,7 +5,7 @@ import {
   setTasksAC,
   tasksReducer, TasksStateType
 } from './tasks-reducer';
-import {addTodoListAC, removeTodoListAC, setTodolistsAC} from './todolists-reducer';
+import {addTodolistAC, removeTodolistAC, setTodolistsAC} from './todolists-reducer';
 import {TaskPriorities, TaskStatuses} from "../../api/todolists-api";
 
 let startState: TasksStateType;
@@ -98,7 +98,7 @@ test('title of specified task should be chanded', () => {
 })
 
 test('new array should be added when new todolist is added', () => {
-  const action = addTodoListAC({
+  const action = addTodolistAC({
     id: 'blabla',
     title: 'new todolist',
     order: 0,
@@ -120,7 +120,7 @@ test('new array should be added when new todolist is added', () => {
 
 
 test('property with todolistId should be deleted', () => {
-  const action = removeTodoListAC("todolistId2");
+  const action = removeTodolistAC("todolistId2");
 
   const endState = tasksReducer(startState, action)
 

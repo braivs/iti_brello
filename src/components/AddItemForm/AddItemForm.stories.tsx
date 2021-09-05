@@ -17,5 +17,6 @@ AddItemFormBaseExample.args = {
 };
 export const AddItemFormDisabledBaseExample = Template.bind({});
 AddItemFormDisabledBaseExample.args = {
-  addItem: action('AddItemForm clicked')
+  addItem: action('AddItemForm clicked'),
+  disabled: true
 };
