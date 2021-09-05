@@ -53,7 +53,7 @@ export type TodolistType = {
   addedDate: string
   order: number
 }
-type ResponseType<D = {}> = {
+export type ResponseType<D = {}> = {
   fieldsErrors: Array<string>
   resultCode: number
   messages: Array<string>
