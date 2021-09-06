@@ -59,14 +59,17 @@ export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch<ActionTy
             dispatch(setAppStatusAC('succeeded'))
         })
 }
-export const removeTaskTC = (taskId: string, todolistId: string) => (dispatch: Dispatch<ActionType>) => {
+export const removeTaskTC = (taskId: string, todolistId: string) => (dispatch: ThunkDispatch) => {
     todolistsAPI.deleteTask(todolistId, taskId)
         .then((res) => {
             const action = removeTaskAC(taskId, todolistId)
             dispatch(action)
         })
+        .catch((error) => {
+            handleServerNetworkError(error, dispatch)
+        })
 }
-export const addTaskTC = (title: string, todoListID: string) => (dispatch: Dispatch<ActionType | SetAppErrorActionType | SetAppStatusActionType>) => {
+export const addTaskTC = (title: string, todoListID: string) => (dispatch: ThunkDispatch) => {
     dispatch(setAppStatusAC('loading'))
     todolistsAPI.createTask(todoListID, title)
         .then(res => {
