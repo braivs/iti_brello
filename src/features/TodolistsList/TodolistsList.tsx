@@ -16,18 +16,21 @@ import {Grid, Paper} from "@material-ui/core";
 import AddItemForm from "../../components/AddItemForm/AddItemForm";
 import TodoList from "./Todolist/TodoList";
 import {TasksStateType} from "../../app/App";
+import {Redirect} from "react-router-dom";
 
 type PropsType = {
   demo?: boolean
 }
 
 export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
-  let todoLists = useSelector<AppRootStateType, TodoListDomainType[]>(state => state.todolists)
-  let tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+  const todoLists = useSelector<AppRootStateType, TodoListDomainType[]>(state => state.todolists)
+  const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+  const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (demo) {
+    if (demo || !isLoggedIn) {
       return
     }
     const thunk = fetchTodolistsTC();
@@ -73,6 +76,10 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
     const thunk = addTodolistTC(title)
     dispatch(thunk)
   }, [dispatch])
+
+  if (!isLoggedIn) {
+    return <Redirect to={'login'} />
+  }
 
   return (
     <>
