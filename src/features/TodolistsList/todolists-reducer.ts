@@ -46,9 +46,8 @@ export const setTodolistsAC = (todolists: Array<TodolistType>) =>
 export const clearTodosDataAC = () => ({type: 'CLEAR-DATA'} as const)
 
 // thunks
-// todo: need to fix any
-export const fetchTodolistsTC = () => {
-    return (dispatch: any) => {
+export const fetchTodolistsTC = (): AppThunk => {
+    return (dispatch) => {
         dispatch(setAppStatusAC('loading'))
         todolistsAPI.getTodolists()
             .then((res) => {
@@ -128,10 +127,11 @@ export type ActionType =
     | SetTodolistsActionType
     | ReturnType<typeof changeTodolistEntityStatusAC>
     | ClearTodosDataActionType
+    | SetAppStatusActionType
 export type FilterValuesType = 'all' | 'active' | 'completed'
 export type TodoListDomainType = TodolistType & {
     filter: FilterValuesType
     entityStatus: RequestStatusType
 }
-// type AppThunk<ReturnType = void> = ThunkAction<void, AppRootStateType, unknown, ActionType>
+type AppThunk = ThunkAction<void, AppRootStateType, unknown, ActionType>
 type ThunkDispatch = Dispatch<ActionType | SetAppStatusActionType | SetAppErrorActionType>
