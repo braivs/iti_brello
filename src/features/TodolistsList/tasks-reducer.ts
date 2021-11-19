@@ -1,7 +1,8 @@
 import {
+    addTodolistAC,
     AddTodoListActionType,
-    ClearTodosDataActionType,
-    RemoveTodoListActionType,
+    ClearTodosDataActionType, removeTodolistAC,
+    RemoveTodoListActionType, setTodolistsAC,
     SetTodolistsActionType
 } from './todolists-reducer';
 import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType} from "../../api/todolists-api";
@@ -12,7 +13,7 @@ import {handleServerAppError, handleServerNetworkError} from "../../utils/error-
 
 const initialState: TasksStateType = {}
 
-export const tasksReducer = (state = initialState, action: ActionType): TasksStateType => {
+export const tasksReducer = (state = initialState, action: any): TasksStateType => {
     switch (action.type) {
         case 'REMOVE-TASK':
             return {...state, [action.todolistId]: state[action.todolistId].filter(t => t.id !== action.tasksId)}
@@ -23,16 +24,16 @@ export const tasksReducer = (state = initialState, action: ActionType): TasksSta
                 ...state, [action.todoListID]: state[action.todoListID]
                     .map(t => t.id === action.taskID ? {...t, ...action.model} : t)
             }
-        case 'ADD-TODOLIST':
+        case addTodolistAC.name:
             return {...state, [action.todolist.id]: []}
-        case 'REMOVE-TODOLIST': {
+        case removeTodolistAC.name: {
             const copyState = {...state}
             delete copyState[action.id]
             return copyState
         }
-        case "SET-TODOLISTS": {
+        case setTodolistsAC.name: {
             const copyState = {...state}
-            action.todolists.forEach(tl => {
+            action.todolists.forEach((tl: any) => {
                 copyState[tl.id] = [];
             })
             return copyState
