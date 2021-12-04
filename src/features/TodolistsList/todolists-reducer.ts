@@ -1,15 +1,15 @@
-import {todolistsAPI, TodolistType} from "../../api/todolists-api";
 import {Dispatch} from "redux";
+import {todolistsAPI, TodolistType} from "../../api/todolists-api";
 import {RequestStatusType, setAppStatusAC} from "../../app/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
-import {fetchTasksTC} from "./tasks-reducer";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {fetchTasksTC} from "./tasks-reducer";
 
 const initialState: Array<TodoListDomainType> = []
 
 const slice = createSlice({
     name: 'todolists',
-    initialState: [] as Array<TodoListDomainType>,
+    initialState: initialState,
     reducers: {
         removeTodolistAC(state, action: PayloadAction<{id: string}>){
             const index = state.findIndex(tl => tl.id != action.payload.id)
@@ -18,7 +18,7 @@ const slice = createSlice({
             }
         },
         addTodolistAC(state, action: PayloadAction<{todolist: TodolistType}>){
-            state.push({...action.payload.todolist, filter: 'all', entityStatus: "idle"})
+            state.unshift({...action.payload.todolist, filter: 'all', entityStatus: "idle"})
         },
         changeTodolistTitleAC(state, action: PayloadAction<{title: string, id: string}>){
             const index = state.findIndex(tl => tl.id != action.payload.id)
@@ -34,18 +34,13 @@ const slice = createSlice({
         },
         setTodolistsAC(state, action: PayloadAction<{todolists: Array<TodolistType>}>){
             return action.payload.todolists.map(tl => ({...tl, filter: 'all', entityStatus: "idle"}))
-        }
+        },
     }
 })
 
 export const todoListsReducer = slice.reducer;
 export const {removeTodolistAC, addTodolistAC, changeTodolistTitleAC, changeTodolistFilterAC
     ,changeTodolistEntityStatusAC, setTodolistsAC} = slice.actions
-
-type removeTodolistAT = {
-    type: 'REMOVE-TODOLIST'
-    id: string
-}
 
 export const clearTodosDataAC = () => ({type: 'CLEAR-DATA'} as const)
 
@@ -119,6 +114,8 @@ export const changeTodolistTitleTC = (title: string, id: string,) => {
     }
 }
 
+
+
 // types
 export type AddTodoListActionType = ReturnType<typeof addTodolistAC>
 export type RemoveTodoListActionType = ReturnType<typeof removeTodolistAC>
@@ -130,3 +127,5 @@ export type TodoListDomainType = TodolistType & {
     filter: FilterValuesType
     entityStatus: RequestStatusType
 }
+
+// todo: Somewhere was a bug fix for not cleaning todolist. But in redux toolkit no.
