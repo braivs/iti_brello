@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import AddItemForm from '../../../components/AddItemForm/AddItemForm';
 import EditableSpan from '../../../components/EditableSpan/EditableSpan';
 import {Button, IconButton} from '@material-ui/core';
@@ -7,6 +7,7 @@ import {TaskStatuses, TaskType} from "../../../api/todolists-api";
 import {FilterValuesType, TodoListDomainType} from "../todolists-reducer";
 import {useDispatch} from "react-redux";
 import {Task} from "./Task/Task";
+import {fetchTasksTC} from "../tasks-reducer";
 
 type PropsType = {
     todolist: TodoListDomainType
@@ -26,6 +27,11 @@ const TodoList = React.memo(function ({demo = false, ...props}: PropsType) {
 
     const dispatch = useDispatch()
 
+    useEffect(() => {
+        dispatch(fetchTasksTC(props.todolist.id));
+    }, []);
+
+
     let tasksForTodolist = props.tasks
 
     if (props.todolist.filter === "active") {
@@ -37,6 +43,7 @@ const TodoList = React.memo(function ({demo = false, ...props}: PropsType) {
 
 
     const tasksJSXElements = tasksForTodolist.map(t => {
+        debugger
         return <Task
             key={t.id}
             todolistId={props.todolist.id}

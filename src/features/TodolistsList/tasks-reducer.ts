@@ -12,7 +12,8 @@ import {Dispatch} from "redux";
 import {AppRootStateType} from "../../app/store";
 import {SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType} from "../../app/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {ActionReducerMapBuilder, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {NoInfer} from "@reduxjs/toolkit/dist/tsHelpers";
 
 const initialState: TasksStateType = {}
 
@@ -41,7 +42,7 @@ const slice = createSlice({
             state[action.payload.todolistId] = action.payload.tasks
         },
     },
-    extraReducers: (builder) => {
+    extraReducers: (builder: ActionReducerMapBuilder<NoInfer<TasksStateType>>) => {
         builder.addCase(addTodolistAC, (state, action) => {
             state[action.payload.todolist.id] = [];
         });
