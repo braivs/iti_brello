@@ -24,14 +24,14 @@ export const tasksReducer = (state = initialState, action: any): TasksStateType 
                 ...state, [action.todoListID]: state[action.todoListID]
                     .map(t => t.id === action.taskID ? {...t, ...action.model} : t)
             }
-        case addTodolistAC.name:
+        case addTodolistAC.type:
             return {...state, [action.todolist.id]: []}
-        case removeTodolistAC.name: {
+        case removeTodolistAC.type: {
             const copyState = {...state}
             delete copyState[action.id]
             return copyState
         }
-        case setTodolistsAC.name: {
+        case setTodolistsAC.type: {
             const copyState = {...state}
             action.todolists.forEach((tl: any) => {
                 copyState[tl.id] = [];

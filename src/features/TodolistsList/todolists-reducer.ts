@@ -42,25 +42,10 @@ export const todoListsReducer = slice.reducer;
 export const {removeTodolistAC, addTodolistAC, changeTodolistTitleAC, changeTodolistFilterAC
     ,changeTodolistEntityStatusAC, setTodolistsAC} = slice.actions
 
-
 type removeTodolistAT = {
     type: 'REMOVE-TODOLIST'
     id: string
 }
-
-// actions
-/*export const removeTodolistAC = (id: string): removeTodolistAT =>
-    ({type: 'REMOVE-TODOLIST', id})
-export const addTodolistAC = (todolist: TodolistType) =>
-    ({type: 'ADD-TODOLIST', todolist} as const)
-export const changeTodolistFilterAC = (filter: FilterValuesType, id: string) =>
-    ({type: 'CHANGE-TODOLIST-FILTER', filter, id} as const)
-export const changeTodolistEntityStatusAC = (status: RequestStatusType, id: string) =>
-    ({type: 'CHANGE-TODOLIST-ENTITY-STATUS', status, id} as const)
-export const changeTodolistTitleAC = (title: string, id: string) =>
-    ({type: 'CHANGE-TODOLIST-TITLE', title, id} as const)
-export const setTodolistsAC = (todolists: Array<TodolistType>) =>
-    ({type: "SET-TODOLISTS", todolists} as const)*/
 
 export const clearTodosDataAC = () => ({type: 'CLEAR-DATA'} as const)
 
