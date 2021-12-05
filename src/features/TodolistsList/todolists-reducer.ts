@@ -12,7 +12,7 @@ const slice = createSlice({
     initialState: initialState,
     reducers: {
         removeTodolistAC(state, action: PayloadAction<{id: string}>){
-            const index = state.findIndex(tl => tl.id != action.payload.id)
+            const index = state.findIndex(tl => tl.id === action.payload.id)
             if (index > -1) {
                 state.splice(index, 1)
             }
@@ -21,15 +21,15 @@ const slice = createSlice({
             state.unshift({...action.payload.todolist, filter: 'all', entityStatus: "idle"})
         },
         changeTodolistTitleAC(state, action: PayloadAction<{title: string, id: string}>){
-            const index = state.findIndex(tl => tl.id != action.payload.id)
+            const index = state.findIndex(tl => tl.id === action.payload.id)
             state[index].title = action.payload.title
         },
         changeTodolistFilterAC(state, action: PayloadAction<{filter: FilterValuesType, id: string}>){
-            const index = state.findIndex(tl => tl.id != action.payload.id)
+            const index = state.findIndex(tl => tl.id === action.payload.id)
             state[index].filter = action.payload.filter
         },
         changeTodolistEntityStatusAC(state, action: PayloadAction<{status: RequestStatusType, id: string}>){
-            const index = state.findIndex(tl => tl.id != action.payload.id)
+            const index = state.findIndex(tl => tl.id === action.payload.id)
             state[index].entityStatus = action.payload.status
         },
         setTodolistsAC(state, action: PayloadAction<{todolists: Array<TodolistType>}>){

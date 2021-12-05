@@ -25,6 +25,8 @@ type PropsType = {
 const TodoList = React.memo(function ({demo = false, ...props}: PropsType) {
     console.log('Todolist')
 
+    debugger;
+
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -43,7 +45,6 @@ const TodoList = React.memo(function ({demo = false, ...props}: PropsType) {
 
 
     const tasksJSXElements = tasksForTodolist.map(t => {
-        debugger
         return <Task
             key={t.id}
             todolistId={props.todolist.id}
