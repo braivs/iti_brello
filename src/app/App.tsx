@@ -76,5 +76,6 @@ function App({demo = false}: PropsType) {
     )
 }
 
-
 export default App;
+
+// todo: upgrade to new react-router-dom and new material theme.
