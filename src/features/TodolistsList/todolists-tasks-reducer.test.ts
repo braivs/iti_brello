@@ -13,7 +13,7 @@ test('ids should be equals', () => {
     order: 0
   }
 
-  const action = addTodolistAC(todolist);
+  const action = addTodolistAC({todolist});
 
   const endTasksState = tasksReducer(startTasksState, action)
   const endTodolistsState = todoListsReducer(startTodolistsState, action)
@@ -24,8 +24,8 @@ test('ids should be equals', () => {
 
   expect(idFromTasks === idFromTodolists).toBe(true)
 
-  expect(idFromTasks).toBe(action.todolist.id);
-  expect(idFromTodolists).toBe(action.todolist.id);
+  expect(idFromTasks).toBe(action.payload.todolist.id);
+  expect(idFromTodolists).toBe(action.payload.todolist.id);
 });
 
 
