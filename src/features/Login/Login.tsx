@@ -1,10 +1,16 @@
 import React from 'react'
-import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, TextField, Button, Grid} from '@material-ui/core'
-import {useFormik} from "formik";
-import {useDispatch, useSelector} from "react-redux";
+import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField} from '@material-ui/core'
+import {FormikHelpers, useFormik} from "formik";
+import {useSelector} from "react-redux";
 import {loginTC} from "./auth-reducer";
-import {AppRootStateType} from "../../app/store";
-import { Navigate } from 'react-router-dom';
+import {AppRootStateType, useAppDispatch} from "../../app/store";
+import {Navigate} from 'react-router-dom';
+
+type FormValuesType = {
+    email: string
+    password: string
+    rememberMe: boolean
+}
 
 export const Login = () => {
     type FormikErrorType = {
@@ -13,7 +19,8 @@ export const Login = () => {
         rememberMe?: boolean
     }
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
+
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
 
     const formik = useFormik({
@@ -26,9 +33,9 @@ export const Login = () => {
             const errors: FormikErrorType = {};
             if (!values.email) {
                 errors.email = 'Email if required'
-            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+            } /*else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
                 errors.email = 'Invalid email address';
-            }
+            }*/
             if (!values.password) {
                 errors.password = 'Required';
             } else if (values.password.length < 3) {
@@ -36,10 +43,17 @@ export const Login = () => {
             }
             return errors;
         },
+        onSubmit: async (values: FormValuesType, formikHelpers: FormikHelpers<FormValuesType>) => {
+            const action = await dispatch(loginTC(values));
 
-        onSubmit: values => {
-            dispatch(loginTC(values));
-            formik.resetForm()
+            if (loginTC.rejected.match(action)) {
+                if (action.payload?.fieldsErrors?.length) {
+                    const error = action.payload?.fieldsErrors[0]
+                    formikHelpers.setFieldError(error.field, error.error)
+                } else {
+
+                }
+            }
         },
     });
 
