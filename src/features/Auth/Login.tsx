@@ -3,11 +3,11 @@ import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, G
 import {FormikHelpers, useFormik} from 'formik'
 import {useSelector} from 'react-redux'
 import {login} from './auth-reducer'
-import {Redirect} from 'react-router-dom'
 import {selectIsLoggedIn} from './selectors'
 import {authActions} from './index'
 import {Action} from 'redux'
 import {useActions, useAppDispatch} from '../../utils/redux-utils'
+import { Navigate } from 'react-router-dom'
 
 type FormValuesType = {
     email: string
@@ -52,7 +52,7 @@ export const Login = () => {
     })
 
     if (isLoggedIn) {
-        return <Redirect to={"/"} />
+        return <Navigate to={"/"} />
     }
 
 

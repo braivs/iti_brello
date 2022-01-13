@@ -1,25 +1,22 @@
-import React from 'react'
-import {action} from '@storybook/addon-actions'
-import {AddItemForm} from './AddItemForm'
+import React from 'react';
+import { ComponentStory, ComponentMeta } from '@storybook/react';
+import {action} from "@storybook/addon-actions";
+import {AddItemForm} from "./AddItemForm";
+
 
 export default {
-    title: 'AddItemForm Stories',
-    component: AddItemForm
-}
+  title: 'TODOLIST/AddItemForm',
+  component: AddItemForm,
+} as ComponentMeta<typeof AddItemForm>;
 
-const asyncCallback = async (...params: any[]) => {
-    action('Button inside form clicked')(...params);
-}
+const Template: ComponentStory<typeof AddItemForm> = (args) => <AddItemForm {...args} />;
 
-export const AddItemFormBaseExample = (props: any) => {
-    return (<AddItemForm
-        addItem={asyncCallback}
-    />)
-}
-
-
-export const AddItemFormDisabledExample = (props: any) => {
-    return (<AddItemForm disabled={true}
-        addItem={asyncCallback}
-    />)
-}
+export const AddItemFormBaseExample = Template.bind({});
+AddItemFormBaseExample.args = {
+  addItem: action('AddItemForm clicked')
+};
+export const AddItemFormDisabledBaseExample = Template.bind({});
+AddItemFormDisabledBaseExample.args = {
+  addItem: action('AddItemForm clicked'),
+  disabled: true
+};

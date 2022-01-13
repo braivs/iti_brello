@@ -16,6 +16,7 @@ export const fetchTasks = createAsyncThunk<{ tasks: TaskType[], todolistId: stri
         thunkAPI.dispatch(appActions.setAppStatus({status: 'succeeded'}))
         return {tasks, todolistId}
     } catch (error) {
+        // @ts-ignore
         return handleAsyncServerNetworkError(error, thunkAPI)
     }
 })
@@ -37,6 +38,7 @@ export const addTask = createAsyncThunk<TaskType, { title: string, todolistId: s
                 return thunkAPI.rejectWithValue({errors: res.data.messages, fieldsErrors: res.data.fieldsErrors})
             }
         } catch (err) {
+            // @ts-ignore
             return handleAsyncServerNetworkError(err, thunkAPI, false)
         }
     })
@@ -67,6 +69,7 @@ export const updateTask = createAsyncThunk('tasks/updateTask', async (param: { t
             return handleAsyncServerAppError(res.data, thunkAPI)
         }
     } catch (error) {
+        // @ts-ignore
         return handleAsyncServerNetworkError(error, thunkAPI)
     }
 })

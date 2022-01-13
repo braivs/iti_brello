@@ -5,11 +5,11 @@ import {TasksStateType} from './tasks-reducer'
 import {Grid, Paper} from '@material-ui/core'
 import {AddItemForm, AddItemFormSubmitHelperType} from '../../components/AddItemForm/AddItemForm'
 import {Todolist} from './Todolist/Todolist'
-import {Redirect} from 'react-router-dom'
 import {selectIsLoggedIn} from '../Auth/selectors'
 import {tasksActions, todolistsActions} from './index'
 import {AppRootStateType} from '../../utils/types'
 import {useActions, useAppDispatch} from '../../utils/redux-utils'
+import { Navigate } from 'react-router-dom'
 
 type PropsType = {
     demo?: boolean
@@ -50,7 +50,7 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
 
 
     if (!isLoggedIn) {
-        return <Redirect to={'/login'}/>
+        return <Navigate to={'/login'}/>
     }
 
     return <>

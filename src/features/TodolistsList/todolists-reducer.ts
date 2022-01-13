@@ -15,6 +15,7 @@ const fetchTodolistsTC = createAsyncThunk<{ todolists: TodolistType[] }, undefin
         thunkAPI.dispatch(setAppStatus({status: 'succeeded'}))
         return {todolists: res.data}
     } catch (error) {
+        // @ts-ignore
         return handleAsyncServerNetworkError(error, thunkAPI)
     }
 })
@@ -40,6 +41,7 @@ const addTodolistTC = createAsyncThunk<{ todolist: TodolistType }, string, Thunk
             return handleAsyncServerAppError(res.data, thunkAPI, false)
         }
     } catch (error) {
+        // @ts-ignore
         return handleAsyncServerNetworkError(error, thunkAPI, false)
     }
 })
@@ -53,6 +55,7 @@ const changeTodolistTitleTC = createAsyncThunk('todolists/changeTodolistTitle', 
             return handleAsyncServerAppError(res.data, thunkAPI)
         }
     } catch (error) {
+        // @ts-ignore
         return handleAsyncServerNetworkError(error, thunkAPI, false)
     }
 })

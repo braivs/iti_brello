@@ -1,33 +1,42 @@
-import React from 'react'
-import {action} from '@storybook/addon-actions'
-import {Task} from './Task'
-import {
-    ReduxStoreProviderDecorator
-} from '../../../../stories/decorators/ReduxStoreProviderDecorator'
-import {TaskPriorities, TaskStatuses} from '../../../../api/types'
+import React from 'react';
+import {ComponentMeta, ComponentStory} from '@storybook/react';
+import {Task} from "./Task";
+import {action} from "@storybook/addon-actions";
+import {TaskPriorities, TaskStatuses} from "../../../../api/types";
+import {ReduxStoreProviderDecorator} from "../../../../stories/ReduxStoreProviderDecorator";
+
+const changeTaskStatusCallback = action('Change Task Status')
+const changeTaskTitleCallback = action('Change Task Title')
+const removeTaskCallback = action('Remove Task')
 
 export default {
-    title: 'Task Stories',
-    component: Task,
-    decorators: [ReduxStoreProviderDecorator]
-}
+  title: 'TODOLIST/Task',
+  component: Task,
+  decorators: [ReduxStoreProviderDecorator],
+  args: {
+    changeTaskStatus: changeTaskStatusCallback,
+    changeTaskTitle: changeTaskTitleCallback,
+    removeTask: removeTaskCallback
+  },
+} as ComponentMeta<typeof Task>;
 
-const removeCallback = action('Remove Button inside Task clicked');
-const changeStatusCallback = action('Status changed inside Task');
-const changeTitleCallback = action('Title changed inside Task');
+const Template: ComponentStory<typeof Task> = (args) => <Task {...args} />;
 
-export const TaskBaseExample = (props: any) => {
-    return (
-        <div>
-            <Task
-                task={{id: '1', status: TaskStatuses.Completed, title: "CSS", todoListId: "todolistId1", description: '',
-                    startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low}}
-                todolistId={"todolistId1"}
-            />
-            <Task
-                task={{id: '2', status: TaskStatuses.New, title: "JS", todoListId: "todolistId1", description: '',
-                    startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low}}
-                todolistId={"todolistId2"}
-            />
-        </div>)
-}
+export const TaskIsDone = Template.bind({});
+TaskIsDone.args = {
+  task: {
+    id: '1', status: TaskStatuses.Completed, title: 'redux', todoListId: 'todo1', description: '',
+    startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low
+  },
+  todolistId: 'todo1',
+
+};
+export const TaskIsNotDone = Template.bind({});
+TaskIsNotDone.args = {
+  task: {
+    id: '2', status: TaskStatuses.New, title: 'JS', todoListId: 'todo2', description: '',
+    startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low
+  },
+  todolistId: 'todo2'
+};
+
