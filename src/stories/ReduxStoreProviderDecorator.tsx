@@ -8,11 +8,13 @@ import {todoListsReducer} from "../features/TodolistsList/todolists-reducer";
 import {TaskPriorities, TaskStatuses} from "../api/todolists-api";
 import {appReducer} from "../app/app-reducer";
 import thunkMiddleware from "redux-thunk";
+import {authReducer} from "../features/Login/auth-reducer";
 
 const rootReducer = combineReducers({
   tasks: tasksReducer,
   todolists: todoListsReducer,
-  app: appReducer
+  app: appReducer,
+  auth: authReducer
 })
 
 const initialGlobalState: AppRootStateType = {
