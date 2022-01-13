@@ -1,19 +1,15 @@
-import React from 'react';
-import {ComponentMeta, ComponentStory} from '@storybook/react';
-import App from "./App";
-import {BrowserRouterDecorator, ReduxStoreProviderDecorator} from "../stories/ReduxStoreProviderDecorator";
+import React from 'react'
+import {action} from '@storybook/addon-actions'
+import App from './App'
+import {BrowserRouterDecorator, ReduxStoreProviderDecorator} from '../stories/decorators/ReduxStoreProviderDecorator'
+import StoryRouter from 'storybook-react-router';
 
 export default {
-  title: 'TODOLIST/App',
-  component: App,
-  decorators: [ReduxStoreProviderDecorator, BrowserRouterDecorator]
-} as ComponentMeta<typeof App>;
+    title: 'Application Stories',
+    component: App,
+    decorators: [ReduxStoreProviderDecorator, BrowserRouterDecorator]
+}
 
-const Template: ComponentStory<typeof App> = () => <App demo={true}/>;
-
-export const AppBaseExample = Template.bind({});
-AppBaseExample.args = {};
-
-// todo: fix get tasks request and LinearProgress
-
-
+export const AppBaseExample = (props: any) => {
+    return (<App demo={true} />)
+}

@@ -1,57 +1,50 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {IconButton, TextField} from '@material-ui/core';
-import {AddBox} from '@material-ui/icons';
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react'
+import {IconButton, TextField} from '@material-ui/core'
+import {AddBox} from '@material-ui/icons'
 
+export type AddItemFormSubmitHelperType = { setError: (error: string) => void, setTitle: (title: string) => void}
 type AddItemFormPropsType = {
-  addItem: (title: string) => void
-  disabled?: boolean
+    addItem: (title: string, helper: AddItemFormSubmitHelperType) => void
+    disabled?: boolean
 }
 
-const AddItemForm = React.memo(function ({addItem, disabled = false}: AddItemFormPropsType) {
-  const [title, setTitle] = useState('')
-  const [error, setError] = useState<boolean | string>(false)
+export const AddItemForm = React.memo(function ({addItem, disabled = false}: AddItemFormPropsType) {
+    let [title, setTitle] = useState('')
+    let [error, setError] = useState<string | null>(null)
 
-  const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.currentTarget.value)
-    if (error !== null) {
-      setError(false)
+    const addItemHandler = async () => {
+        if (title.trim() !== '') {
+                addItem(title, {setError, setTitle})
+        } else {
+            setError('Title is required')
+        }
     }
-  }
-  const onKeyPressAddItem = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      onClickAddItem()
-    }
-  }
-  const onClickAddItem = () => {
-    const validatedTitle = title.trim()
-    if (validatedTitle) {
-      addItem(validatedTitle)
-    } else {
-      setError(true)
-    }
-    setTitle('')
-  }
 
-  const errorMessage = error
-    ? <div style={{color: 'red'}}>Title is required!</div>
-    : null
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setTitle(e.currentTarget.value)
+    }
 
-  return (
-    <div>
-      <TextField variant="outlined"
-                 disabled={disabled}
-                 error={!!error}
-                 value={title}
-                 onChange={onChangeTitle}
-                 onKeyPress={onKeyPressAddItem}
-                 label='Text'
-                 helperText={errorMessage}
-      />
-      <IconButton color='primary' onClick={onClickAddItem} disabled={disabled}>
-        <AddBox />
-      </IconButton>
+    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (error !== null) {
+            setError(null)
+        }
+        if (e.charCode === 13) {
+            addItemHandler()
+        }
+    }
+
+    return <div>
+        <TextField variant="outlined"
+                   disabled={disabled}
+                   error={!!error}
+                   value={title}
+                   onChange={onChangeHandler}
+                   onKeyPress={onKeyPressHandler}
+                   label="Title"
+                   helperText={error}
+        />
+        <IconButton color="primary" onClick={addItemHandler} disabled={disabled} style={{marginLeft: '5px'}}>
+            <AddBox/>
+        </IconButton>
     </div>
-  )
 })
-
-export default AddItemForm;
