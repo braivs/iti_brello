@@ -4,9 +4,10 @@ import {
     AppBar,
     Button,
     CircularProgress,
-    Container,
+    Container, createMuiTheme,
     IconButton,
-    LinearProgress,
+    LinearProgress, makeStyles,
+    ThemeProvider,
     Toolbar,
     Typography
 } from '@material-ui/core';
@@ -28,6 +29,14 @@ export type TasksStateType = {
 type PropsType = {
     demo?: boolean
 }
+
+const theme = createMuiTheme();
+
+const useStyles = makeStyles((theme) => {
+    root: {
+        // some CSS that access to theme
+    }
+});
 
 function App({demo = false}: PropsType) {
     const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status)
@@ -52,29 +61,31 @@ function App({demo = false}: PropsType) {
     }
 
     return (
-        <HashRouter>
-            <div className="App">
-                <ErrorSnackbars/>
-                <AppBar position="static">
-                    <Toolbar>
-                        <IconButton edge="start" color="inherit" aria-label="menu">
-                            <Menu/>
-                        </IconButton>
-                        <Typography variant="h6">
-                            News
-                        </Typography>
-                        {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Log out</Button>}
-                    </Toolbar>
-                    {status === 'loading' && <LinearProgress/>}
-                </AppBar>
-                <Container fixed>
-                    <Routes>
-                        <Route path={'/'} element={<TodolistsList demo={demo}/>}/>
-                        <Route path={'/login'} element={<Login/>}/>
-                    </Routes>
-                </Container>
-            </div>
-        </HashRouter>
+        <ThemeProvider theme={theme}>
+            <HashRouter>
+                <div className="App">
+                    <ErrorSnackbars/>
+                    <AppBar position="static">
+                        <Toolbar>
+                            <IconButton edge="start" color="inherit" aria-label="menu">
+                                <Menu/>
+                            </IconButton>
+                            <Typography variant="h6">
+                                News
+                            </Typography>
+                            {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Log out</Button>}
+                        </Toolbar>
+                        {status === 'loading' && <LinearProgress/>}
+                    </AppBar>
+                    <Container fixed>
+                        <Routes>
+                            <Route path={'/'} element={<TodolistsList demo={demo}/>}/>
+                            <Route path={'/login'} element={<Login/>}/>
+                        </Routes>
+                    </Container>
+                </div>
+            </HashRouter>
+        </ThemeProvider>
     )
 }
 
