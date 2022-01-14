@@ -1,8 +1,8 @@
 import React, {useCallback, useEffect} from 'react'
 import {AddItemForm, AddItemFormSubmitHelperType} from '../../../components/AddItemForm/AddItemForm'
 import {EditableSpan} from '../../../components/EditableSpan/EditableSpan'
-import {Button, IconButton, Paper, PropTypes} from '@material-ui/core'
-import {Delete} from '@material-ui/icons'
+import {Button, IconButton, Paper} from '@mui/material'
+import {Delete} from '@mui/icons-material'
 import {Task} from './Task/Task'
 import {FilterValuesType, TodolistDomainType} from '../todolists-reducer'
 import {tasksActions, todolistsActions} from '../index'
@@ -68,7 +68,7 @@ export const Todolist = React.memo(function ({demo = false, ...props}: PropsType
     }
 
     const renderFilterButton = (buttonFilter: FilterValuesType,
-                                color: PropTypes.Color,
+                                color: ColorType,
                                 text: string) => {
         return <Button variant={props.todolist.filter === buttonFilter ? 'outlined' : 'text'}
                        onClick={() => onFilterButtonClickHandler(buttonFilter)}
@@ -95,12 +95,13 @@ export const Todolist = React.memo(function ({demo = false, ...props}: PropsType
             {!tasksForTodolist.length && <div style={{padding: '10px', color: 'grey'}}>No task</div>}
         </div>
         <div style={{paddingTop: '10px'}}>
-            {renderFilterButton('all', 'default', 'All')}
+            {renderFilterButton('all', 'inherit', 'All')}
             {renderFilterButton('active', 'primary', 'Active')}
             {renderFilterButton('completed', 'secondary', 'Completed')}
         </div>
     </Paper>
 })
 
+type ColorType = 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning' | undefined
 
 
