@@ -4,9 +4,10 @@ import {
     AppBar,
     Button,
     CircularProgress,
-    Container,
+    Container, createMuiTheme,
     IconButton,
-    LinearProgress,
+    LinearProgress, makeStyles,
+    ThemeProvider,
     Toolbar,
     Typography
 } from '@material-ui/core'
@@ -24,6 +25,14 @@ import {useActions} from '../utils/redux-utils'
 type PropsType = {
     demo?: boolean
 }
+
+const theme = createMuiTheme();
+
+const useStyles = makeStyles((theme) => {
+    root: {
+        // some CSS that access to theme
+    }
+});
 
 function App({demo = false}: PropsType) {
     const status = useSelector(selectStatus)
@@ -51,27 +60,29 @@ function App({demo = false}: PropsType) {
     }
 
     return (
-        <div className="App">
-            <ErrorSnackbar/>
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton edge="start" color="inherit" aria-label="menu">
-                        <Menu/>
-                    </IconButton>
-                    <Typography variant="h6">
-                        News
-                    </Typography>
-                    {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Log out</Button>}
-                </Toolbar>
-                {status === 'loading' && <LinearProgress/>}
-            </AppBar>
-            <Container fixed>
-                <Routes>
-                    <Route path={'/'} element={<TodolistsList demo={demo}/>}/>
-                    <Route path={'/login'} element={<Login/>}/>
-                </Routes>
-            </Container>
-        </div>
+        <ThemeProvider theme={theme}>
+            <div className="App">
+                <ErrorSnackbar/>
+                <AppBar position="static">
+                    <Toolbar>
+                        <IconButton edge="start" color="inherit" aria-label="menu">
+                            <Menu/>
+                        </IconButton>
+                        <Typography variant="h6">
+                            News
+                        </Typography>
+                        {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Log out</Button>}
+                    </Toolbar>
+                    {status === 'loading' && <LinearProgress/>}
+                </AppBar>
+                <Container fixed>
+                    <Routes>
+                        <Route path={'/'} element={<TodolistsList demo={demo}/>}/>
+                        <Route path={'/login'} element={<Login/>}/>
+                    </Routes>
+                </Container>
+            </div>
+        </ThemeProvider>
     )
 }
 
