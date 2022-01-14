@@ -1,5 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {Input} from '@material-ui/core';
+import {Input} from '@mui/material';
 
 type EditableSpanPropsType = {
   title: string

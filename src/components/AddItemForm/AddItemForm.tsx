@@ -1,6 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {IconButton, TextField} from '@material-ui/core';
-import {AddBox} from '@material-ui/icons';
+import {IconButton, TextField} from '@mui/material';
+import {AddBox} from '@mui/icons-material';
 
 type AddItemFormPropsType = {
   addItem: (title: string) => void
@@ -47,11 +47,11 @@ const AddItemForm = React.memo(function ({addItem, disabled = false}: AddItemFor
                  label='Text'
                  helperText={errorMessage}
       />
-      <IconButton color='primary' onClick={onClickAddItem} disabled={disabled}>
+      <IconButton color='primary' onClick={onClickAddItem} disabled={disabled} size="large">
         <AddBox />
       </IconButton>
     </div>
-  )
+  );
 })
 
 export default AddItemForm;

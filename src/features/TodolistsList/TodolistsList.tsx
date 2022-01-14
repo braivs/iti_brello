@@ -12,7 +12,7 @@ import {
 import React, {useCallback, useEffect} from "react";
 import {addTaskTC, removeTaskTC, updateTaskTC} from "./tasks-reducer";
 import {TaskStatuses} from "../../api/todolists-api";
-import {Grid, Paper} from "@material-ui/core";
+import {Grid, Paper} from "@mui/material";
 import AddItemForm from "../../components/AddItemForm/AddItemForm";
 import TodoList from "./Todolist/TodoList";
 import {TasksStateType} from "../../app/App";
