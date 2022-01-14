@@ -5,16 +5,12 @@ import {
     Button,
     CircularProgress,
     Container,
-    createTheme,
     IconButton,
     LinearProgress,
-    StyledEngineProvider,
     Theme,
-    ThemeProvider,
     Toolbar,
     Typography,
 } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import {Menu} from '@mui/icons-material'
 import {TodolistsList} from '../features/TodolistsList'
 import {useSelector} from 'react-redux'
@@ -25,24 +21,9 @@ import {selectIsInitialized, selectStatus} from '../features/Application/selecto
 import {useActions} from '../utils/redux-utils'
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
 
-
-declare module '@mui/styles/defaultTheme' {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface DefaultTheme extends Theme {}
-}
-
-
 type PropsType = {
     demo?: boolean
 }
-
-const theme = createTheme();
-
-const useStyles = makeStyles((theme) => {
-    root: {
-        // some CSS that access to theme
-    }
-});
 
 function App({demo = false}: PropsType) {
     const status = useSelector(selectStatus)
@@ -70,31 +51,27 @@ function App({demo = false}: PropsType) {
     }
 
     return (
-        <StyledEngineProvider injectFirst>
-            <ThemeProvider theme={theme}>
-                <div className="App">
-                    <ErrorSnackbar/>
-                    <AppBar position="static">
-                        <Toolbar>
-                            <IconButton edge="start" color="inherit" aria-label="menu" size="large">
-                                <Menu/>
-                            </IconButton>
-                            <Typography variant="h6">
-                                News
-                            </Typography>
-                            {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Log out</Button>}
-                        </Toolbar>
-                        {status === 'loading' && <LinearProgress/>}
-                    </AppBar>
-                    <Container fixed>
-                        <Routes>
-                            <Route path={'/'} element={<TodolistsList demo={demo}/>}/>
-                            <Route path={'/login'} element={<Login/>}/>
-                        </Routes>
-                    </Container>
-                </div>
-            </ThemeProvider>
-        </StyledEngineProvider>
+        <div className="App">
+            <ErrorSnackbar/>
+            <AppBar position="static">
+                <Toolbar>
+                    <IconButton edge="start" color="inherit" aria-label="menu" size="large">
+                        <Menu/>
+                    </IconButton>
+                    <Typography variant="h6">
+                        News
+                    </Typography>
+                    {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Log out</Button>}
+                </Toolbar>
+                {status === 'loading' && <LinearProgress/>}
+            </AppBar>
+            <Container fixed>
+                <Routes>
+                    <Route path={'/'} element={<TodolistsList demo={demo}/>}/>
+                    <Route path={'/login'} element={<Login/>}/>
+                </Routes>
+            </Container>
+        </div>
     );
 }
 
