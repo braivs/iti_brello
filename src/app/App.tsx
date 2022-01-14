@@ -5,16 +5,11 @@ import {
     Button,
     CircularProgress,
     Container,
-    createTheme,
     IconButton,
     LinearProgress,
-    ThemeProvider,
-    Theme,
-    StyledEngineProvider,
     Toolbar,
     Typography,
 } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import {Menu} from '@mui/icons-material';
 import {TaskType} from "../api/todolists-api";
 import {TodolistsList} from "../features/TodolistsList/TodolistsList";
@@ -26,13 +21,6 @@ import {Login} from "../features/Login/Login";
 import {logoutTC} from "../features/Login/auth-reducer";
 import {HashRouter, Route, Routes} from 'react-router-dom';
 
-
-declare module '@mui/styles/defaultTheme' {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface DefaultTheme extends Theme {}
-}
-
-
 export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
@@ -40,14 +28,6 @@ export type TasksStateType = {
 type PropsType = {
     demo?: boolean
 }
-
-const theme = createTheme();
-
-const useStyles = makeStyles((theme) => {
-    root: {
-        // some CSS that access to theme
-    }
-});
 
 function App({demo = false}: PropsType) {
     const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status)
@@ -72,36 +52,30 @@ function App({demo = false}: PropsType) {
     }
 
     return (
-        <StyledEngineProvider injectFirst>
-            <ThemeProvider theme={theme}>
-                <HashRouter>
-                    <div className="App">
-                        <ErrorSnackbars/>
-                        <AppBar position="static">
-                            <Toolbar>
-                                <IconButton edge="start" color="inherit" aria-label="menu" size="large">
-                                    <Menu/>
-                                </IconButton>
-                                <Typography variant="h6">
-                                    News
-                                </Typography>
-                                {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Log out</Button>}
-                            </Toolbar>
-                            {status === 'loading' && <LinearProgress/>}
-                        </AppBar>
-                        <Container fixed>
-                            <Routes>
-                                <Route path={'/'} element={<TodolistsList demo={demo}/>}/>
-                                <Route path={'/login'} element={<Login/>}/>
-                            </Routes>
-                        </Container>
-                    </div>
-                </HashRouter>
-            </ThemeProvider>
-        </StyledEngineProvider>
+        <HashRouter>
+            <div className="App">
+                <ErrorSnackbars/>
+                <AppBar position="static">
+                    <Toolbar>
+                        <IconButton edge="start" color="inherit" aria-label="menu" size="large">
+                            <Menu/>
+                        </IconButton>
+                        <Typography variant="h6">
+                            News
+                        </Typography>
+                        {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Log out</Button>}
+                    </Toolbar>
+                    {status === 'loading' && <LinearProgress/>}
+                </AppBar>
+                <Container fixed>
+                    <Routes>
+                        <Route path={'/'} element={<TodolistsList demo={demo}/>}/>
+                        <Route path={'/login'} element={<Login/>}/>
+                    </Routes>
+                </Container>
+            </div>
+        </HashRouter>
     );
 }
 
 export default App;
-
-// todo: upgrade to new material UI
