@@ -16,10 +16,11 @@ import {TodolistsList} from "../features/TodolistsList/TodolistsList";
 import {ErrorSnackbars} from "../components/ErrorSnackbar/ErrorSnackbar";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
-import {initializeAppTC, RequestStatusType} from "./app-reducer";
+import {RequestStatusType} from "./app-reducer";
 import {Login} from "../features/Login/Login";
 import {logoutTC} from "../features/Login/auth-reducer";
 import {HashRouter, Route, Routes} from 'react-router-dom';
+import {initializeApp} from "./app-sagas";
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>
@@ -36,7 +37,7 @@ function App({demo = false}: PropsType) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(initializeAppTC())
+        dispatch(initializeApp())
     }, [])
 
     const logoutHandler = useCallback(() => {
@@ -48,7 +49,6 @@ function App({demo = false}: PropsType) {
             style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
             <CircularProgress/>
         </div>
-
     }
 
     return (
