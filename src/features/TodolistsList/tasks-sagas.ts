@@ -13,14 +13,12 @@ export function* fetchTasksWorkerSaga(action: ReturnType<typeof fetchTasks>) {
     yield put(setTasksAC(tasks, action.todolistsId))
     yield put(setAppStatusAC('succeeded'))
 }
-
 export const fetchTasks = (todolistsId: string) => ({type: 'TASKS/FETCH-TASKS', todolistsId})
 
 export function* removeTaskWorkerSaga(action: ReturnType<typeof removeTask>) {
     const res: AxiosResponse<ResponseType> = yield call(todolistsAPI.deleteTask, action.todolistsId, action.taskId)
     yield put(removeTaskAC(action.taskId, action.todolistsId))
 }
-
 export const removeTask = (todolistsId: string, taskId: string) => ({type: 'TASKS/REMOVE-TASKS', todolistsId, taskId})
 
 export function* tasksWatcherSaga() {

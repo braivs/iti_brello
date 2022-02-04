@@ -2,9 +2,9 @@ import React from 'react'
 import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, TextField, Button, Grid} from '@mui/material'
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
-import {loginTC} from "./auth-reducer";
 import {AppRootStateType} from "../../app/store";
 import { Navigate } from 'react-router-dom';
+import {fetchLogin} from "./auth-sagas";
 
 export const Login = () => {
     type FormikErrorType = {
@@ -38,7 +38,10 @@ export const Login = () => {
         },
 
         onSubmit: values => {
-            dispatch(loginTC(values));
+            // dispatch(loginTC(values));
+            debugger
+            const action = fetchLogin(values)
+            dispatch(action);
             formik.resetForm()
         },
     });
