@@ -13,21 +13,19 @@ const instance = axios.create({
 
 // api
 export const todolistsAPI = {
-    getTodolists() {
+    getTodolists(): Promise<AxiosResponse<TodolistType[]>> {
         const promise = instance.get<TodolistType[]>('todo-lists');
         return promise;
     },
-    createTodolist(title: string) {
+    createTodolist(title: string): Promise<AxiosResponse<ResponseType<{ item: TodolistType }>>> {
         const promise = instance.post<ResponseType<{ item: TodolistType }>>('todo-lists', {title: title});
         return promise;
     },
-    deleteTodolist(id: string) {
+    deleteTodolist(id: string): Promise<AxiosResponse<ResponseType>> {
         const promise = instance.delete<ResponseType>(`todo-lists/${id}`)
-        // : new Promise((res, rej) => {res({errorEmulation})}); // tried to fix server error
-        // : 'id is required';
         return promise;
     },
-    updateTodolist(id: string, title: string) {
+    updateTodolist(id: string, title: string): Promise<AxiosResponse<ResponseType>> {
         const promise = instance.put<ResponseType>(`todo-lists/${id}`, {title: title});
         return promise;
     },
@@ -59,7 +57,7 @@ export const authAPI = {
         const promise = instance.post<ResponseType<{ userId?: number }>>('auth/login', data);
         return promise;
     },
-    logout() {
+    logout(): Promise<AxiosResponse<ResponseType>> {
         const promise = instance.delete<ResponseType<{ userId?: number }>>('auth/login');
         return promise;
     },

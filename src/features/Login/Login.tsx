@@ -38,10 +38,7 @@ export const Login = () => {
         },
 
         onSubmit: values => {
-            // dispatch(loginTC(values));
-            debugger
-            const action = fetchLogin(values)
-            dispatch(action);
+            dispatch(fetchLogin(values));
             formik.resetForm()
         },
     });

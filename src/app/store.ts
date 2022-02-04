@@ -9,6 +9,7 @@ import {tasksWatcherSaga} from "../features/TodolistsList/tasks-sagas";
 import {appWatcherSaga} from "./app-sagas";
 import {authWatcherSaga} from "../features/Login/auth-sagas";
 import { all } from 'redux-saga/effects';
+import {todolistsWatcherSaga} from "../features/TodolistsList/todolists-sagas";
 
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
@@ -32,7 +33,8 @@ function* rootWatcher() {
     yield all([
         appWatcherSaga(),
         tasksWatcherSaga(),
-        authWatcherSaga()
+        authWatcherSaga(),
+        todolistsWatcherSaga()
     ])
 }
 

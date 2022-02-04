@@ -1,14 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../app/store";
-import {
-    addTodolistTC,
-    changeTodolistFilterAC,
-    changeTodolistTitleTC,
-    fetchTodolistsTC,
-    FilterValuesType,
-    removeTodolistTC,
-    TodoListDomainType
-} from "./todolists-reducer";
+import {changeTodolistFilterAC, FilterValuesType, TodoListDomainType} from "./todolists-reducer";
 import React, {useCallback, useEffect} from "react";
 import {addTaskTC, removeTaskTC, updateTaskTC} from "./tasks-reducer";
 import {TaskStatuses} from "../../api/todolists-api";
@@ -16,7 +8,8 @@ import {Grid, Paper} from "@mui/material";
 import AddItemForm from "../../components/AddItemForm/AddItemForm";
 import TodoList from "./Todolist/TodoList";
 import {TasksStateType} from "../../app/App";
-import { Navigate } from "react-router-dom";
+import {Navigate} from "react-router-dom";
+import {fetchAddTodolist, fetchChangeTodolistTitle, fetchFetchTodolists, fetchRemoveTodolist} from "./todolists-sagas";
 
 type PropsType = {
     demo?: boolean
@@ -33,8 +26,8 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
         if (demo || !isLoggedIn) {
             return
         }
-        const thunk = fetchTodolistsTC();
-        dispatch(thunk)
+        const action = fetchFetchTodolists();
+        dispatch(action)
     }, [])
 
     const removeTask = useCallback((taskID: string, todoListID: string) => {
@@ -63,18 +56,18 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
     }, [])
 
     const removeTodoList = useCallback((todoListID: string) => {
-        const thunk = removeTodolistTC(todoListID)
-        dispatch(thunk)
+        const action = fetchRemoveTodolist(todoListID)
+        dispatch(action)
     }, [])
 
     const changeTodoListTitle = useCallback((title: string, todoListID: string) => {
-        const thunk = changeTodolistTitleTC(title, todoListID)
-        dispatch(thunk)
+        const action = fetchChangeTodolistTitle(title, todoListID)
+        dispatch(action)
     }, [])
 
     const addTodoList = useCallback((title: string) => {
-        const thunk = addTodolistTC(title)
-        dispatch(thunk)
+        const action = fetchAddTodolist(title)
+        dispatch(action)
     }, [dispatch])
 
     if (!isLoggedIn) {

@@ -18,9 +18,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
 import {RequestStatusType} from "./app-reducer";
 import {Login} from "../features/Login/Login";
-import {logoutTC} from "../features/Login/auth-reducer";
 import {HashRouter, Route, Routes} from 'react-router-dom';
 import {initializeApp} from "./app-sagas";
+import {fetchLogout} from "../features/Login/auth-sagas";
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>
@@ -41,7 +41,7 @@ function App({demo = false}: PropsType) {
     }, [])
 
     const logoutHandler = useCallback(() => {
-        dispatch(logoutTC())
+        dispatch(fetchLogout())
     }, [])
 
     if (!isInitialized) {
