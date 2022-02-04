@@ -2,7 +2,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../app/store";
 import {changeTodolistFilterAC, FilterValuesType, TodoListDomainType} from "./todolists-reducer";
 import React, {useCallback, useEffect} from "react";
-import {addTaskTC, removeTaskTC, updateTaskTC} from "./tasks-reducer";
 import {TaskStatuses} from "../../api/todolists-api";
 import {Grid, Paper} from "@mui/material";
 import AddItemForm from "../../components/AddItemForm/AddItemForm";
@@ -10,6 +9,7 @@ import TodoList from "./Todolist/TodoList";
 import {TasksStateType} from "../../app/App";
 import {Navigate} from "react-router-dom";
 import {fetchAddTodolist, fetchChangeTodolistTitle, fetchFetchTodolists, fetchRemoveTodolist} from "./todolists-sagas";
+import {fetchAddTasks, fetchRemoveTask, fetchUpdateTask} from "./tasks-sagas";
 
 type PropsType = {
     demo?: boolean
@@ -31,23 +31,23 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
     }, [])
 
     const removeTask = useCallback((taskID: string, todoListID: string) => {
-        const thunk = removeTaskTC(taskID, todoListID)
-        dispatch(thunk)
+        const action = fetchRemoveTask(taskID, todoListID)
+        dispatch(action)
     }, [])
 
     const addTask = useCallback((title: string, todoListID: string) => {
-        const thunk = addTaskTC(title, todoListID)
-        dispatch(thunk)
+        const action = fetchAddTasks(title, todoListID)
+        dispatch(action)
     }, [])
 
     const changeTaskStatus = useCallback((taskID: string, status: TaskStatuses, todoListID: string) => {
-        const thunk = updateTaskTC(taskID, {status}, todoListID)
-        dispatch(thunk)
+        const action = fetchUpdateTask(taskID, {status}, todoListID)
+        dispatch(action)
     }, [])
 
     const changeTaskTitle = useCallback((taskID: string, taskTitle: string, todoListID: string) => {
-        const thunk = updateTaskTC(taskID, {title: taskTitle}, todoListID)
-        dispatch(thunk)
+        const action = fetchUpdateTask(taskID, {title: taskTitle}, todoListID)
+        dispatch(action)
     }, [])
 
     const changeTodoListFilter = useCallback((filter: FilterValuesType, todoListID: string) => {

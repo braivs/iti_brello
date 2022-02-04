@@ -1,8 +1,6 @@
-import {SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType} from "../../app/app-reducer";
+import {SetAppErrorActionType, SetAppStatusActionType} from "../../app/app-reducer";
 import {Dispatch} from "redux";
-import {authAPI, LoginParamsType} from "../../api/todolists-api";
-import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
-import {clearTodosDataAC, ClearTodosDataActionType} from "../TodolistsList/todolists-reducer";
+import {ClearTodosDataActionType} from "../TodolistsList/todolists-reducer";
 
 const initialState: InitialStateType = {
     isLoggedIn: false
