@@ -7,10 +7,9 @@ import {
     Container,
     IconButton,
     LinearProgress,
-    Theme,
     Toolbar,
     Typography,
-} from '@mui/material';
+} from '@mui/material'
 import {Menu} from '@mui/icons-material'
 import {TodolistsList} from '../features/TodolistsList'
 import {useSelector} from 'react-redux'
@@ -19,7 +18,7 @@ import {Route, Routes} from 'react-router-dom'
 import {authActions, authSelectors, Login} from '../features/Auth'
 import {selectIsInitialized, selectStatus} from '../features/Application/selectors'
 import {useActions} from '../utils/redux-utils'
-import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
+import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar"
 
 type PropsType = {
     demo?: boolean
@@ -74,5 +73,7 @@ function App({demo = false}: PropsType) {
         </div>
     );
 }
+
+//working
 
 export default App
