@@ -24,7 +24,7 @@ const initialGlobalState: AppRootStateType = {
         {id: "todolistId2", title: "What to buy", filter: "all", entityStatus: 'loading', addedDate: '', order: 0}
     ],
     tasks: {
-        ["todolistId1"]: [
+        ['todolistId1']: [
             {
                 id: v1(), title: "HTML&CSS", status: TaskStatuses.Completed, todoListId: "todolistId1", description: '',
                 startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low
@@ -69,7 +69,7 @@ export const storyBookStore = configureStore({
     middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(thunkMiddleware)
 })
 
-export const ReduxStoreProviderDecorator = (storyFn: () => React.ReactNode) => (
+export const ReduxStoreProviderDecorator = (storyFn: any) => (
     <Provider
         store={storyBookStore}>{storyFn()}
     </Provider>)
